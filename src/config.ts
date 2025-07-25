@@ -27,7 +27,7 @@ export const citreaTestnet = {
     default: { name: 'Explorer', url: 'https://explorer.testnet.citrea.xyz' },
   },
   smartContracts: {
-    sacco: '0x0000000000000000000000000000000000000000', // Existing SACCO contract
+    sacco: '0x23e783F25D27095E3bdb7239C9755eBbCF75f6EB', // Existing SACCO contract
   },
 } as const;
 
@@ -43,7 +43,7 @@ export const TESTNET_CONFIG: {
     explorer: citreaTestnet.blockExplorers.default.url,
   },
   smartContracts: {
-    sacco: '0x0000000000000000000000000000000000000000',
+    sacco: '0x23e783F25D27095E3bdb7239C9755eBbCF75f6EB',
   },
 };
 
