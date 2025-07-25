@@ -19,8 +19,6 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
     uint256 public constant SAVINGS_INTEREST_RATE = 5;
     uint256 public constant SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
 
-    // Events
-
     constructor() Ownable(msg.sender) {
         // Deploy storage and modules
         saccoStorage = new SaccoStorage();
@@ -54,8 +52,6 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         
         // Update savings through SaccoMembers
         saccoMembers.depositSavings{value: msg.value}();
-        
-        emit SavingsDeposited(msg.sender, msg.value);
     }
 
     function withdrawSavings(uint256 _amount) external {
@@ -64,8 +60,6 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         
         // Withdraw through SaccoMembers
         saccoMembers.withdrawSavings(_amount);
-        
-        emit SavingsWithdrawn(msg.sender, _amount);
     }
 
     function _calculateAndPayInterest(address _member) internal {

@@ -53,12 +53,9 @@ contract SaccoLoans is ReentrancyGuard {
         _;
     }
 
-    // Removed unused _purpose parameter
     function requestLoan(uint256 _amount, uint256 _duration) external onlyMember nonReentrant {
         require(_amount > 0, "Loan amount must be greater than zero");
         require(_duration >= 30 days && _duration <= 365 days, "Invalid loan duration");
-        
-        ISacco.Member memory borrower = _storage.getMember(msg.sender);
         
         // Calculate loan limit based on savings and membership duration
         uint256 maxLoanAmount = _calculateMaxLoanAmount(msg.sender);
@@ -142,11 +139,11 @@ contract SaccoLoans is ReentrancyGuard {
         uint256 savingsMultiplier;
         
         if (block.timestamp - member.joinDate < 90 days) {
-            savingsMultiplier = 2;
+            savingsMultiplier = 2; // 2x savings for new members
         } else if (block.timestamp - member.joinDate < 365 days) {
-            savingsMultiplier = 3;
+            savingsMultiplier = 3; // 3x savings for members < 1 year
         } else {
-            savingsMultiplier = 5;
+            savingsMultiplier = 5; // 5x savings for established members
         }
         
         return member.savings * savingsMultiplier;
@@ -160,7 +157,7 @@ contract SaccoLoans is ReentrancyGuard {
         } else if (member.totalLoansReceived < 3) {
             return _amount / 4; // 25% for members with few loans
         }
-        return 0;
+        return 0; // No guarantee required for established members
     }
 
     function _calculateRepaymentAmount(uint256 _amount, uint256 _duration) internal pure returns (uint256) {
