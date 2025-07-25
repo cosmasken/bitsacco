@@ -48,7 +48,7 @@ export const LandingPage: React.FC = () => {
 
             {/* Hero Subtitle */}
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-              Join rotating savings circles (Chamas) with Bitcoin. Save together, earn together, grow together.
+              Join community savings groups (Saccos) with Bitcoin. Save together, earn together, grow together.
             </p>
 
             {/* CTA Buttons */}
@@ -115,7 +115,7 @@ export const LandingPage: React.FC = () => {
                   Rotating Savings Circles
                 </h4>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Join traditional chama savings groups powered by Bitcoin and smart contracts for transparency and security.
+                  Join traditional sacco savings groups powered by Bitcoin and smart contracts for transparency and security.
                 </p>
               </CardContent>
             </Card>
@@ -252,7 +252,7 @@ export const LandingPage: React.FC = () => {
             Ready to Start Saving Bitcoin?
           </h3>
           <p className="text-xl text-orange-100 mb-8">
-            Join thousands of savers building their Bitcoin wealth through community-powered chamas
+            Join thousands of savers building their Bitcoin wealth through community-powered saccos
           </p>
           
           <Button
@@ -279,7 +279,7 @@ export const LandingPage: React.FC = () => {
                 <h4 className="text-xl font-bold">Jenga</h4>
               </div>
               <p className="text-gray-400">
-                Building the future of Bitcoin savings through community-powered chamas.
+                Building the future of Bitcoin savings through community-powered saccos.
               </p>
             </div>
             

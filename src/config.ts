@@ -7,10 +7,6 @@ interface ChainConfig {
 }
 
 interface SmartContracts {
-  chamaCore: string;
-  chamaGamification: string;
-  p2pTransfer: string;
-  jengaFactory: string;
   sacco: string;
 }
 
@@ -31,10 +27,6 @@ export const citreaTestnet = {
     default: { name: 'Explorer', url: 'https://explorer.testnet.citrea.xyz' },
   },
   smartContracts: {
-    chamaCore: '0x0000000000000000000000000000000000000000', // To be deployed
-    chamaGamification: '0x0000000000000000000000000000000000000000', // To be deployed
-    p2pTransfer: '0x0000000000000000000000000000000000000000', // To be deployed
-    jengaFactory: '0x0000000000000000000000000000000000000000', // To be deployed
     sacco: '0x0000000000000000000000000000000000000000', // Existing SACCO contract
   },
 } as const;
@@ -51,10 +43,6 @@ export const TESTNET_CONFIG: {
     explorer: citreaTestnet.blockExplorers.default.url,
   },
   smartContracts: {
-    chamaCore: '0x0000000000000000000000000000000000000000',
-    chamaGamification: '0x0000000000000000000000000000000000000000',
-    p2pTransfer: '0x0000000000000000000000000000000000000000',
-    jengaFactory: '0x0000000000000000000000000000000000000000',
     sacco: '0x0000000000000000000000000000000000000000',
   },
 };
