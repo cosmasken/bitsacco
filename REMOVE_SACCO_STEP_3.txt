@@ -1,0 +1,6 @@
+Step 3: Remove SACCO navigation from Navbar and SACCO logic from BoardManagement.
+
+- Edit src/components/layout/Navbar.tsx to remove the /sacco navigation item.
+- Edit src/components/dashboard/BoardManagement.tsx to remove all useSacco imports and SACCO contract types.
+
+Next: Commit these changes.

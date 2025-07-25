@@ -10,27 +10,11 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Users, Vote, Crown, Clock, CheckCircle } from 'lucide-react';
-import { 
-  useSacco, 
-  useSubmitCommitteeBid, 
-  useVoteOnCommitteeBid,
-  useRemoveBoardMember,
-  useBoardMemberAddedEvent,
-  useCommitteeBidSubmittedEvent,
-  useCommitteeBidAcceptedEvent 
-} from '@/hooks/useSacco';
-import { BoardMember, CommitteeBid, Member } from '@/contracts/sacco-contract';
+
 
 export function BoardManagement() {
   const { address } = useAccount();
-  const { 
-    useGetBoardMembers, 
-    useGetCommitteeBids, 
-    useIsBoardMember,
-    useGetActiveBoardMembersCount,
-    useGetActiveBidsCount,
-    useMembers 
-  } = useSacco();
+
 
   // Contract read hooks
   const { data: boardMembers = [], isLoading: loadingBoard } = useGetBoardMembers() as { data: BoardMember[]; isLoading: boolean };
