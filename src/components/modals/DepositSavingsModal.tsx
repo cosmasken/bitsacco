@@ -35,7 +35,19 @@ export const DepositSavingsModal: React.FC<DepositSavingsModalProps> = ({
     if (isConfirmed && hash) {
       toast({
         title: 'Deposit Successful!',
-        description: `Deposited ${amount} sats. Transaction hash: ${hash}`,
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }

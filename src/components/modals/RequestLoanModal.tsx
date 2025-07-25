@@ -38,8 +38,20 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
   useEffect(() => {
     if (isConfirmed && hash) {
       toast({
-        title: 'Loan Request Successful!',
-        description: `Requested loan of ${amount} sats. Transaction hash: ${hash}`,
+        title: 'LOan Request Successful!',
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }

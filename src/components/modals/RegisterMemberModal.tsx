@@ -36,7 +36,19 @@ export const RegisterMemberModal: React.FC<RegisterMemberModalProps> = ({
     if (isConfirmed && hash) {
       toast({
         title: 'Registration Successful!',
-        description: `Member ${memberAddress} registered. Transaction hash: ${hash}`,
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }

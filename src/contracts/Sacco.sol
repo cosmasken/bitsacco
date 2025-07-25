@@ -60,8 +60,8 @@ contract SACCO is ReentrancyGuard {
     }
 
     // Share-based ownership constants
-    uint256 public constant MINIMUM_SHARES = 10;
-    uint256 public constant SHARE_PRICE = 0.001 ether; // 0.001 BTC per share
+    uint256 public constant MINIMUM_SHARES = 1;
+    uint256 public constant SHARE_PRICE = 0.00001 ether; // 0.001 cBTC per share
     uint256 public constant SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
     
     // Interest rates

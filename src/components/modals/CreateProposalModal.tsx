@@ -40,7 +40,19 @@ export const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
     if (isConfirmed && hash) {
       toast({
         title: 'Proposal Created Successfully!',
-        description: `Proposal "${title}" created. Transaction hash: ${hash}`,
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }
@@ -52,6 +64,22 @@ export const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
         title: 'Proposal Creation Failed',
         description: error.message || 'An unknown error occurred.',
         variant: 'destructive',
+      });
+      toast({
+        title: 'Proposal Creation Failed',
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
     }
   }, [error, toast]);

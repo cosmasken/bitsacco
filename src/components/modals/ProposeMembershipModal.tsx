@@ -39,7 +39,19 @@ export const ProposeMembershipModal: React.FC<ProposeMembershipModalProps> = ({
     if (isConfirmed && hash) {
       toast({
         title: 'Membership Proposal Created!',
-        description: `Proposal for ${candidateAddress} has been created. Members can now vote. Transaction hash: ${hash}`,
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }

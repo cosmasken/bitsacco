@@ -41,7 +41,19 @@ export const ProvideGuaranteeModal: React.FC<ProvideGuaranteeModalProps> = ({
     if (isConfirmed && hash) {
       toast({
         title: 'Guarantee Provided Successfully!',
-        description: `You provided ${guaranteeAmount} BTC as guarantee for loan ${loanId}. Transaction hash: ${hash}`,
+        description: (
+          <span>
+            <span>Transaction:&nbsp;</span>
+            <a
+              href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              View on Citrea Scan
+            </a>
+          </span>
+        ),
       });
       onOpenChange(false);
     }
