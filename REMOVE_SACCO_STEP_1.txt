@@ -1,0 +1,14 @@
+Step 1: Remove SACCO smart contract modules and artifacts.
+
+Files to remove:
+- contracts/Sacco.sol
+- contracts/SaccoDividends.sol
+- contracts/SaccoGovernance.sol
+- contracts/SaccoLoans.sol
+- contracts/SaccoMembers.sol
+- contracts/SaccoSavings.sol
+- contracts/SaccoShares.sol
+- src/contracts/Sacco.sol
+- src/abi/Sacco.json
+
+Next: Commit this step, then proceed to frontend and hooks cleanup.
