@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useAccount } from 'wagmi';
-import { Dashboard } from './Dashboard';
+import Dashboard from './Dashboard';
 import { LandingPage } from '../components/landing/LandingPage';
 
 const Index: React.FC = () => {

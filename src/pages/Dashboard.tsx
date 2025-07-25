@@ -14,7 +14,7 @@ import { useAccount } from 'wagmi';
 import { Loader2, UserPlus, Wallet, CreditCard, FileText, Vote, TrendingUp, Share, Shield, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-export default function SaccoDashboard() {
+export default function Dashboard() {
   const { t } = useTranslation();
   const { address, isConnected } = useAccount();
   const [isPurchaseSharesModalOpen, setIsPurchaseSharesModalOpen] = useState(false);
