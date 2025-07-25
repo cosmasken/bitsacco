@@ -2,8 +2,7 @@ import { Address } from 'viem';
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
 import { 
     SACCO_CONTRACT,
-    SACCO_CONSTANTS,
-    ProposalType
+    SACCO_CONSTANTS
 } from '../contracts/sacco-contract';
 import { citreaTestnet } from '../wagmi';
 
@@ -19,10 +18,88 @@ export function useSacco() {
         });
     }
 
+    function useTotalShares() {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getTotalShares',
+        });
+    }
+
+    function useTotalSavings() {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getTotalSavings',
+        });
+    }
+
     function useTotalProposals() {
         return useReadContract({
             ...SACCO_CONTRACT,
             functionName: 'getTotalProposals',
+        });
+    }
+
+    function useIsMemberActive(memberAddress: Address) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'isMemberActive',
+            args: [memberAddress],
+        });
+    }
+
+    function useGetMemberSavings(memberAddress: Address) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getMemberSavings',
+            args: [memberAddress],
+        });
+    }
+
+    function useGetMemberShares(memberAddress: Address) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getMemberShares',
+            args: [memberAddress],
+        });
+    }
+
+    // Read Functions - Loans
+    function useGetLoan(loanId: bigint) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getLoan',
+            args: [loanId],
+        });
+    }
+
+    function useGetMemberLoans(memberAddress: Address) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getMemberLoans',
+            args: [memberAddress],
+        });
+    }
+
+    function useGetMaxLoanAmount(memberAddress: Address) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getMaxLoanAmount',
+            args: [memberAddress],
+        });
+    }
+
+    function useGetLoanGuarantees(loanId: bigint) {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getLoanGuarantees',
+            args: [loanId],
+        });
+    }
+
+    function useNextLoanId() {
+        return useReadContract({
+            ...SACCO_CONTRACT,
+            functionName: 'getNextLoanId',
         });
     }
 
@@ -76,32 +153,6 @@ export function useSacco() {
         return { proposeMembership, hash, error, isPending, isConfirming, isConfirmed };
     }
 
-    // Legacy function for backward compatibility
-    function useRegisterMember() {
-        const { writeContract, data: hash, error, isPending } = useWriteContract();
-        const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
-
-        const registerMember = async (memberAddress: Address) => {
-            if (!address) throw new Error('Wallet not connected');
-            
-            try {
-                await writeContract({
-                    ...SACCO_CONTRACT,
-                    functionName: 'purchaseShares',
-                    args: [SACCO_CONSTANTS.MINIMUM_SHARES],
-                    value: SACCO_CONSTANTS.MINIMUM_SHARES * SACCO_CONSTANTS.SHARE_PRICE,
-                    chain: citreaTestnet,
-                    account: address,
-                });
-            } catch (err) {
-                console.error('Error registering member:', err);
-                throw err;
-            }
-        };
-
-        return { registerMember, hash, error, isPending, isConfirming, isConfirmed };
-    }
-
     // Write Functions - Savings Management
     function useDepositSavings() {
         const { writeContract, data: hash, error, isPending } = useWriteContract();
@@ -125,6 +176,30 @@ export function useSacco() {
         };
 
         return { depositSavings, hash, error, isPending, isConfirming, isConfirmed };
+    }
+
+    function useWithdrawSavings() {
+        const { writeContract, data: hash, error, isPending } = useWriteContract();
+        const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+
+        const withdrawSavings = async (amount: bigint) => {
+            if (!address) throw new Error('Wallet not connected');
+            
+            try {
+                await writeContract({
+                    ...SACCO_CONTRACT,
+                    functionName: 'withdrawSavings',
+                    args: [amount],
+                    chain: citreaTestnet,
+                    account: address,
+                });
+            } catch (err) {
+                console.error('Error withdrawing savings:', err);
+                throw err;
+            }
+        };
+
+        return { withdrawSavings, hash, error, isPending, isConfirming, isConfirmed };
     }
 
     // Write Functions - Loan Management
@@ -177,50 +252,60 @@ export function useSacco() {
         return { provideGuarantee, hash, error, isPending, isConfirming, isConfirmed };
     }
 
-    // Write Functions - Governance
-    function useCreateProposal() {
+    function useRepayLoan() {
         const { writeContract, data: hash, error, isPending } = useWriteContract();
         const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
 
-        const createProposal = async (description: string, proposalType: ProposalType) => {
+        const repayLoan = async (loanId: bigint, amount: bigint) => {
             if (!address) throw new Error('Wallet not connected');
             
             try {
                 await writeContract({
                     ...SACCO_CONTRACT,
-                    functionName: 'createProposal',
-                    args: [description, proposalType],
+                    functionName: 'repayLoan',
+                    args: [loanId],
+                    value: amount,
                     chain: citreaTestnet,
                     account: address,
                 });
             } catch (err) {
-                console.error('Error creating proposal:', err);
+                console.error('Error repaying loan:', err);
                 throw err;
             }
         };
 
-        return { createProposal, hash, error, isPending, isConfirming, isConfirmed };
+        return { repayLoan, hash, error, isPending, isConfirming, isConfirmed };
     }
 
     // Return all hooks
     return {
-        // Read functions
+        // Read functions - Member Info
         useGetMemberInfo,
+        useTotalShares,
+        useTotalSavings,
         useTotalProposals,
+        useIsMemberActive,
+        useGetMemberSavings,
+        useGetMemberShares,
+        
+        // Read functions - Loans
+        useGetLoan,
+        useGetMemberLoans,
+        useGetMaxLoanAmount,
+        useGetLoanGuarantees,
+        useNextLoanId,
         
         // Write functions - Member Management
         usePurchaseShares,
         useProposeMembership,
-        useRegisterMember,
         
         // Write functions - Savings Management
         useDepositSavings,
+        useWithdrawSavings,
         
         // Write functions - Loan Management
         useRequestLoan,
         useProvideGuarantee,
-        
-        // Write functions - Governance
-        useCreateProposal,
+        useRepayLoan,
     };
 }

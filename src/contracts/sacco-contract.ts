@@ -11,27 +11,16 @@ export const SACCO_CONTRACT = {
     abi: SaccoABI,
 } as const;
 
-// Contract Constants
-export const SACCO_CONSTANTS = {
-    MINIMUM_SHARES: BigInt(10),
-    SHARE_PRICE: BigInt('1000000000000000'), // 0.001 ETH
-    SAVINGS_INTEREST_RATE: BigInt(5), // 5% per annum
-    LOAN_INTEREST_RATE: BigInt(10), // 10% per annum
-    SECONDS_PER_YEAR: BigInt(31536000), // 365 * 24 * 60 * 60
-    DIVIDEND_DISTRIBUTION_THRESHOLD: BigInt(50),
-} as const;
-
 // Contract Events
 export const SACCO_EVENTS = {
     // Member Events
     MemberRegistered: 'MemberRegistered',
     SharesPurchased: 'SharesPurchased',
-    MembershipProposed: 'MembershipProposed',
     
     // Savings Events
     SavingsDeposited: 'SavingsDeposited',
-    InterestCalculated: 'InterestCalculated',
-    DividendDistributed: 'DividendDistributed',
+    SavingsWithdrawn: 'SavingsWithdrawn',
+    InterestPaid: 'InterestPaid',
     
     // Loan Events
     LoanRequested: 'LoanRequested',
@@ -55,68 +44,20 @@ export type SaccoContractFunctions = {
     distributeDividends: readonly [];
     
     // Loan Management
-    requestLoan: readonly [bigint, bigint, string]; // amount, duration, purpose
+    requestLoan: readonly [bigint, bigint]; // amount, duration
     repayLoan: readonly [bigint]; // loanId (payable)
     provideGuarantee: readonly [bigint]; // loanId (payable)
+    
+    // View Functions
     getLoan: readonly [bigint]; // loanId
     getMemberLoans: readonly [Address]; // member
     getMaxLoanAmount: readonly [Address]; // member
     getLoanGuarantees: readonly [bigint]; // loanId
-};
-
-// Event Types
-export type MemberRegisteredEvent = {
-    member: Address;
-    shares: bigint;
-};
-
-export type SharesPurchasedEvent = {
-    member: Address;
-    shares: bigint;
-    amount: bigint;
-};
-
-export type SavingsDepositedEvent = {
-    member: Address;
-    amount: bigint;
-};
-
-export type InterestCalculatedEvent = {
-    member: Address;
-    amount: bigint;
-};
-
-export type DividendDistributedEvent = {
-    member: Address;
-    amount: bigint;
-};
-
-export type LoanRequestedEvent = {
-    borrower: Address;
-    amount: bigint;
-    loanId: bigint;
-};
-
-export type GuaranteeProvidedEvent = {
-    guarantor: Address;
-    loanId: bigint;
-    amount: bigint;
-};
-
-export type LoanIssuedEvent = {
-    borrower: Address;
-    amount: bigint;
-    loanId: bigint;
-};
-
-export type LoanRepaidEvent = {
-    borrower: Address;
-    loanId: bigint;
-    amount: bigint;
-};
-
-export type GuaranteeReleasedEvent = {
-    guarantor: Address;
-    loanId: bigint;
-    amount: bigint;
+    getNextLoanId: readonly [];
+    getTotalShares: readonly [];
+    getTotalSavings: readonly [];
+    getTotalProposals: readonly [];
+    isMemberActive: readonly [Address];
+    getMemberSavings: readonly [Address];
+    getMemberShares: readonly [Address];
 };

@@ -790,19 +790,19 @@
 			]
 		},
 		"Sacco.sol": {
-			"keccak256": "0xcfb4910effd81fcde7b423adae67e11adccf1458a9776f3272fe74acf11fc78f",
+			"keccak256": "0xb9967a09f35eed10c4ea41ee16079125b1c0b7e0487f86e9147c624801da3d37",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cdaf241248236369b19ca114912eca45080a98375ab781bd88ae44a9799c7177",
-				"dweb:/ipfs/QmaL5nRw1bRy3EQwF2qT5bg3GThZoJNoPx7VbjYueVb8oq"
+				"bzz-raw://66f8e675503c5ecce20bfdc78b47e9707b8122c07ad4393b13bcbe340a8a7f18",
+				"dweb:/ipfs/Qmbg1GFdVe5Y1wsGd23PB4ucsbjQP7EkJCBNvCT6yHNG9b"
 			]
 		},
 		"SaccoLoans.sol": {
-			"keccak256": "0x120fd4dff0e083482d175b6f1319b48ab9f5f8f06ee5795e5174ba1e11ab1c48",
+			"keccak256": "0xd80ff60714a6cb5d3ec3420c99e659868bafca0305652911325aea71fcf63b2e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://696c04bc5b8380135c3055693573c93889e6a13b2637c49d126c0a5366ad56d7",
-				"dweb:/ipfs/Qmd2JPHesnMwiJM4wxZZJq1NjEXQ4e3gTTzRUeh8mw2XMc"
+				"bzz-raw://92f50eeaf32f3a17b7f3b085c503b94cb8907b65325f7a069fbbf45e6c0319e3",
+				"dweb:/ipfs/QmVnxZ69bo9uV7HFhKE87LLGiAtgiHWG4S7fHPrJfG9MV9"
 			]
 		},
 		"SaccoMembers.sol": {

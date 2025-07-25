@@ -5,8 +5,14 @@
 		"type": "constructor"
 	},
 	{
-		"inputs": [],
-		"name": "AccessControlBadConfirmation",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "OwnableInvalidOwner",
 		"type": "error"
 	},
 	{
@@ -15,276 +21,19 @@
 				"internalType": "address",
 				"name": "account",
 				"type": "address"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "neededRole",
-				"type": "bytes32"
 			}
 		],
-		"name": "AccessControlUnauthorizedAccount",
+		"name": "OwnableUnauthorizedAccount",
 		"type": "error"
 	},
 	{
 		"inputs": [],
-		"name": "AlreadyContributedThisCycle",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "AlreadyMember",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "BelowMinimumContribution",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "ChamaAlreadyStarted",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "ChamaFull",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "ChamaNotActive",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "ChamaNotFound",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "CycleNotComplete",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "GracePeriodNotOver",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "InsufficientCollateral",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "InvalidContributionAmount",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "InvalidCycleDuration",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "InvalidMemberCount",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "NotChamaCreator",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "NotMember",
+		"name": "ReentrancyGuardReentrantCall",
 		"type": "error"
 	},
 	{
 		"anonymous": false,
 		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaClosed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaCompleted",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "member",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "cycleNumber",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaContributionMissed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "creator",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "contributionAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "cycleNumber",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaCycleCompleted",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "cycleNumber",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaCyclePayout",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "member",
-				"type": "address"
-			}
-		],
-		"name": "ChamaJoined",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "starter",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"name": "ChamaStarted",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
 			{
 				"indexed": true,
 				"internalType": "address",
@@ -298,7 +47,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "CollateralDeposited",
+		"name": "InterestPaid",
 		"type": "event"
 	},
 	{
@@ -306,10 +55,61 @@
 		"inputs": [
 			{
 				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "member",
+				"type": "address"
 			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "shares",
+				"type": "uint256"
+			}
+		],
+		"name": "MemberRegistered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "proposer",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "candidate",
+				"type": "address"
+			}
+		],
+		"name": "MembershipProposed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
 			{
 				"indexed": true,
 				"internalType": "address",
@@ -323,18 +123,12 @@
 				"type": "uint256"
 			}
 		],
-		"name": "CollateralForfeited",
+		"name": "SavingsDeposited",
 		"type": "event"
 	},
 	{
 		"anonymous": false,
 		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
 			{
 				"indexed": true,
 				"internalType": "address",
@@ -348,7 +142,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "CollateralReturned",
+		"name": "SavingsWithdrawn",
 		"type": "event"
 	},
 	{
@@ -356,15 +150,15 @@
 		"inputs": [
 			{
 				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "member",
+				"type": "address"
 			},
 			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "shares",
+				"type": "uint256"
 			},
 			{
 				"indexed": false,
@@ -373,149 +167,21 @@
 				"type": "uint256"
 			}
 		],
-		"name": "ContributionMade",
+		"name": "SharesPurchased",
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "Paused",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "chamaId",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "cycleNumber",
-				"type": "uint256"
-			}
-		],
-		"name": "PayoutProcessed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"indexed": true,
-				"internalType": "bytes32",
-				"name": "previousAdminRole",
-				"type": "bytes32"
-			},
-			{
-				"indexed": true,
-				"internalType": "bytes32",
-				"name": "newAdminRole",
-				"type": "bytes32"
-			}
-		],
-		"name": "RoleAdminChanged",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			}
-		],
-		"name": "RoleGranted",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			}
-		],
-		"name": "RoleRevoked",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "Unpaused",
-		"type": "event"
+		"stateMutability": "payable",
+		"type": "fallback"
 	},
 	{
 		"inputs": [],
-		"name": "ADMIN_ROLE",
+		"name": "MINIMUM_SHARES",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "uint256",
 				"name": "",
-				"type": "bytes32"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -523,12 +189,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "DEFAULT_ADMIN_ROLE",
+		"name": "SAVINGS_INTEREST_RATE",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "uint256",
 				"name": "",
-				"type": "bytes32"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -536,12 +202,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "GAMIFICATION_ROLE",
+		"name": "SECONDS_PER_YEAR",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "uint256",
 				"name": "",
-				"type": "bytes32"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -549,7 +215,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "chamaCount",
+		"name": "SHARE_PRICE",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -561,209 +227,92 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "chamas",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "contributionAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "cycleDuration",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "maxMembers",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "active",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "currentCycle",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "currentRecipientIndex",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "lastCycleTimestamp",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalPool",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalCollateral",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"inputs": [],
+		"name": "calculateInterestForAllMembers",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "contributions",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "contributor",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_contributionAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_cycleDuration",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_maxMembers",
-				"type": "uint256"
-			}
-		],
-		"name": "createChama",
+		"inputs": [],
+		"name": "depositSavings",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			}
-		],
-		"name": "getChamaDetails",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "contributionAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "cycleDuration",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "maxMembers",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "currentMembers",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "active",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "currentCycle",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalPool",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalCollateral",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"inputs": [],
+		"name": "distributeDividends",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_chamaId",
+				"name": "_loanId",
 				"type": "uint256"
 			}
 		],
-		"name": "getChamaMembers",
+		"name": "getLoan",
 		"outputs": [
 			{
-				"internalType": "address[]",
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "repaymentAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "duration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nextRepaymentTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "repaidAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "repaid",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "borrower",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "guaranteeRequired",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "guaranteeProvided",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct SaccoLoans.Loan",
 				"name": "",
-				"type": "address[]"
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",
@@ -773,80 +322,17 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_cycle",
+				"name": "_loanId",
 				"type": "uint256"
 			}
 		],
-		"name": "getCycleInfo",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "cycleContributions",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "completed",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_member",
-				"type": "address"
-			}
-		],
-		"name": "getMemberCollateral",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_member",
-				"type": "address"
-			}
-		],
-		"name": "getMemberContributions",
+		"name": "getLoanGuarantees",
 		"outputs": [
 			{
 				"components": [
 					{
 						"internalType": "address",
-						"name": "contributor",
+						"name": "guarantor",
 						"type": "address"
 					},
 					{
@@ -855,12 +341,12 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "timestamp",
-						"type": "uint256"
+						"internalType": "bool",
+						"name": "active",
+						"type": "bool"
 					}
 				],
-				"internalType": "struct ChamaCore.Contribution[]",
+				"internalType": "struct SaccoLoans.LoanGuarantee[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -871,79 +357,216 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			}
+		],
+		"name": "getMaxLoanAmount",
+		"outputs": [
+			{
 				"internalType": "uint256",
-				"name": "_chamaId",
+				"name": "",
 				"type": "uint256"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "address",
 				"name": "_member",
 				"type": "address"
 			}
 		],
-		"name": "getMemberPayoutPosition",
+		"name": "getMemberInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "shares",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			}
-		],
-		"name": "getRoleAdmin",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			}
-		],
-		"name": "getTotalCollateral",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
 			},
 			{
+				"internalType": "uint256",
+				"name": "savings",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "joinDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isActive",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalLoansReceived",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "guaranteeCapacity",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "account",
+				"name": "_member",
 				"type": "address"
 			}
 		],
-		"name": "grantRole",
+		"name": "getMemberLoans",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			}
+		],
+		"name": "getMemberSavings",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			}
+		],
+		"name": "getMemberShares",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNextLoanId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalProposals",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalSavings",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalShares",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			}
+		],
+		"name": "isMemberActive",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidate",
+				"type": "address"
+			}
+		],
+		"name": "proposeMembership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -952,107 +575,11 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "hasContributedThisCycle",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_member",
-				"type": "address"
-			}
-		],
-		"name": "hasMemberReceivedPayout",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "hasRole",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_member",
-				"type": "address"
-			}
-		],
-		"name": "isCollateralReturned",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
+				"name": "_loanId",
 				"type": "uint256"
 			}
 		],
-		"name": "joinChama",
+		"name": "provideGuarantee",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
@@ -1061,104 +588,18 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "lastContributionTimestamp",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
+				"name": "_shares",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "purchaseShares",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "pause",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "paused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_chamaId",
-				"type": "uint256"
-			}
-		],
-		"name": "processMissedContributions",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "callerConfirmation",
-				"type": "address"
-			}
-		],
-		"name": "renounceRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "revokeRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_gamificationContract",
-				"type": "address"
-			}
-		],
-		"name": "setGamificationContract",
+		"name": "renounceOwnership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1167,11 +608,11 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_chamaId",
+				"name": "_loanId",
 				"type": "uint256"
 			}
 		],
-		"name": "stackBTC",
+		"name": "repayLoan",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
@@ -1180,29 +621,28 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_chamaId",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_duration",
 				"type": "uint256"
 			}
 		],
-		"name": "startChama",
+		"name": "requestLoan",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "bytes4",
-				"name": "interfaceId",
-				"type": "bytes4"
-			}
-		],
-		"name": "supportsInterface",
+		"inputs": [],
+		"name": "saccoLoans",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "contract SaccoLoans",
 				"name": "",
-				"type": "bool"
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -1210,9 +650,58 @@
 	},
 	{
 		"inputs": [],
-		"name": "unpause",
+		"name": "saccoMembers",
+		"outputs": [
+			{
+				"internalType": "contract SaccoMembers",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "saccoStorage",
+		"outputs": [
+			{
+				"internalType": "contract SaccoStorage",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawSavings",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	}
 ]
