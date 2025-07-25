@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { formatEther } from 'viem';
 import { AlertCircle } from 'lucide-react';
 import { SaccoQuickActions } from '../components/dashboard/SaccoQuickActions';
 import { BoardManagement } from '../components/dashboard/BoardManagement';
@@ -9,16 +10,32 @@ import { DepositSavingsModal } from '../components/modals/DepositSavingsModal';
 import { RequestLoanModal } from '../components/modals/RequestLoanModal';
 import { ProvideGuaranteeModal } from '../components/modals/ProvideGuaranteeModal';
 import { useSacco } from '../hooks/useSacco';
+import { citreaTestnet } from '../wagmi';
 
 export default function Dashboard() {
     const { address, isConnected } = useAccount();
     const { useGetMemberInfo } = useSacco();
-
+    // Get user balance with loading and error states
+    const { 
+        data: balance, 
+        isLoading: balanceLoading, 
+        error: balanceError 
+    } = useBalance({
+        address,
+        chainId: citreaTestnet.id,
+    });
     // Modal states
     const [isPurchaseSharesModalOpen, setIsPurchaseSharesModalOpen] = useState(false);
     const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
     const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
     const [isProvideGuaranteeModalOpen, setIsProvideGuaranteeModalOpen] = useState(false);
+    // Overall loading and error states
+
+
+  const formatBalance = (balance: bigint | undefined) => {
+    if (!balance) return '0.00';
+    return parseFloat(formatEther(balance)).toFixed(4);
+  };
 
     // Get member info
     const { data: memberInfo } = useGetMemberInfo(address!);

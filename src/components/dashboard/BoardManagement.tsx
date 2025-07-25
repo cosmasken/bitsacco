@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import { formatEther } from 'viem';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import { useSacco } from '@/hooks/useSacco';
 
 export function BoardManagement() {
     const { address } = useAccount();
+    const { data: balance } = useBalance({ address });
     const { 
         useGetMemberInfo,
         useTotalProposals,
@@ -43,6 +44,18 @@ export function BoardManagement() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
+                    <div className="space-y-2 mb-6 p-4 border rounded-lg bg-secondary">
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Wallet Address</span>
+                            <span className="font-mono text-sm">{address}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Wallet Balance</span>
+                            <span className="font-semibold">
+                                {balance ? `${balance.formatted} ${balance.symbol}` : 'Loading...'}
+                            </span>
+                        </div>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-blue-600">

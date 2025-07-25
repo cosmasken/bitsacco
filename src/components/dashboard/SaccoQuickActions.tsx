@@ -9,7 +9,7 @@ import {
     Users,
     TrendingUp
 } from 'lucide-react';
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import { useSacco } from '@/hooks/useSacco';
 
 export function SaccoQuickActions({
@@ -24,6 +24,7 @@ export function SaccoQuickActions({
     onProvideGuarantee: () => void;
 }) {
     const { address } = useAccount();
+    const { data: balance } = useBalance({ address });
     const { useGetMemberInfo } = useSacco();
     const { data: memberInfo } = useGetMemberInfo(address!);
 
@@ -39,6 +40,18 @@ export function SaccoQuickActions({
                 </CardDescription>
             </CardHeader>
             <CardContent>
+                <div className="space-y-2 mb-6 p-4 border rounded-lg bg-secondary">
+                    <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Wallet Address</span>
+                        <span className="font-mono text-sm truncate max-w-[200px] md:max-w-full">{address}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Wallet Balance</span>
+                        <span className="font-semibold">
+                            {balance ? `${balance.formatted} ${balance.symbol}` : 'Loading...'}
+                        </span>
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {/* Purchase Shares */}
                     <Button 
