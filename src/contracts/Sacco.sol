@@ -35,7 +35,6 @@ contract SACCO is ReentrancyGuard {
     
     enum ProposalType {
         GENERAL,
-        MEMBER_REGISTRATION,
         INTEREST_RATE_CHANGE,
         DIVIDEND_DISTRIBUTION,
         BOARD_MEMBER_ADDITION,
@@ -97,7 +96,7 @@ contract SACCO is ReentrancyGuard {
     // Events
     event SharesPurchased(address indexed member, uint256 shares, uint256 amount);
     event MemberRegistered(address indexed member, uint256 shares);
-    event MembershipProposed(address indexed proposer, address indexed candidate);
+    
     event SavingsDeposited(address indexed member, uint256 amount);
     event InterestPaid(address indexed member, uint256 amount);
     event GuaranteeProvided(address indexed guarantor, uint256 loanId, uint256 amount);
@@ -169,47 +168,14 @@ contract SACCO is ReentrancyGuard {
         _;
     }
 
-    // Share purchase function - entry point to SACCO membership
     function purchaseShares(uint256 _shares) external payable nonReentrant {
         require(_shares >= MINIMUM_SHARES, "Must purchase minimum shares");
         require(msg.value == _shares * SHARE_PRICE, "Incorrect payment amount");
-        
-        if (!members[msg.sender].isActive) {
-            // New member - requires proposal and voting (except for founder)
-            require(msg.sender == founder || _shares == MINIMUM_SHARES, "New members can only buy minimum shares initially");
-            
-            if (msg.sender != founder) {
-                // Create membership proposal
-                _createMembershipProposal(msg.sender);
-                // Hold the payment in escrow until approved
-                return;
-            }
-        }
-        
+
         _addShares(msg.sender, _shares, msg.value);
     }
     
-    // Democratic member registration through proposals
-    function proposeMembership(address _candidate) external onlyMember {
-        require(!members[_candidate].isActive, "Already a member");
-        _createMembershipProposal(_candidate);
-    }
     
-    function _createMembershipProposal(address _candidate) internal {
-        proposals[totalProposals] = Proposal({
-            description: string(abi.encodePacked("Membership proposal for ", _addressToString(_candidate))),
-            deadline: block.timestamp + votingDuration,
-            yesVotes: 0,
-            noVotes: 0,
-            executed: false,
-            proposer: msg.sender,
-            proposalType: ProposalType.MEMBER_REGISTRATION,
-            targetMember: _candidate
-        });
-        
-        emit MembershipProposed(msg.sender, _candidate);
-        totalProposals++;
-    }
     
     function _addShares(address _member, uint256 _shares, uint256 _payment) internal {
         if (!members[_member].isActive) {

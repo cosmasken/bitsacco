@@ -273,25 +273,6 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "proposer",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "candidate",
-				"type": "address"
-			}
-		],
-		"name": "MembershipProposed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
 				"name": "member",
 				"type": "address"
 			},
@@ -1173,19 +1154,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_candidate",
-				"type": "address"
-			}
-		],
-		"name": "proposeMembership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

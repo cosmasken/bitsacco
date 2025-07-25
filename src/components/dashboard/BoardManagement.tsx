@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import { formatEther } from 'viem';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Users, Vote, Crown } from 'lucide-react';
-import { useSacco } from '@/hooks/useSacco';
+import { useSacco, useSaccoSharesPurchasedEvent, useSaccoSavingsDepositedEvent } from '@/hooks/useSacco';
 
 export function BoardManagement() {
     const { address } = useAccount();
-    const { data: balance } = useBalance({ address });
+    const { data: balance, refetch: refetchBalance } = useBalance({ address });
     const { 
         useGetMemberInfo,
         useTotalProposals,
     } = useSacco();
 
     // Contract read hooks
-    const { data: memberInfo, isLoading: loadingMember } = useGetMemberInfo(address!);
+    const { data: memberInfo, isLoading: loadingMember, refetch: refetchMemberInfo } = useGetMemberInfo(address!);
     const { data: totalProposals, isLoading: loadingProposals } = useTotalProposals();
 
     // Parse member info
@@ -25,6 +25,17 @@ export function BoardManagement() {
     const joinDate = memberInfo ? new Date(Number(memberInfo[2]) * 1000) : null; // joinDate
     const isActive = memberInfo ? memberInfo[3] : false; // isActive
     const isMember = shares > 0;
+
+    // Event listeners for refetching data
+    useSaccoSharesPurchasedEvent(() => {
+        refetchMemberInfo();
+        refetchBalance();
+    });
+
+    useSaccoSavingsDepositedEvent(() => {
+        refetchMemberInfo();
+        refetchBalance();
+    });
 
     if (loadingMember) {
         return <div>Loading member information...</div>;

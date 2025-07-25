@@ -1,6 +1,8 @@
 import { Address, parseEther } from 'viem';
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt, useWatchContractEvent, useAccount } from 'wagmi';
-import { SACCO_CONTRACT, Member, BoardMember, CommitteeBid, Proposal, Loan, SaccoContractFunctions, MemberRegisteredEvent, SavingsDepositedEvent, LoanIssuedEvent, LoanRepaidEvent, DividendPaidEvent, BoardMemberAddedEvent, BoardMemberRemovedEvent, CommitteeBidSubmittedEvent, CommitteeBidVotedEvent, CommitteeBidAcceptedEvent } from '../contracts/sacco-contract';
+import { SACCO_CONTRACT } from '../contracts/sacco-contract';
+import { Member, BoardMember, CommitteeBid, Proposal, Loan } from '../types/sacco';
+import { MemberRegisteredEvent, SavingsDepositedEvent, LoanIssuedEvent, LoanRepaidEvent, DividendPaidEvent, BoardMemberAddedEvent, BoardMemberRemovedEvent, CommitteeBidSubmittedEvent, CommitteeBidVotedEvent, CommitteeBidAcceptedEvent } from '../types/events';
 import { citreaTestnet } from '../wagmi';
 
 export function useSacco() {
@@ -696,18 +698,31 @@ export function useRemoveBoardMember() {
   };
 }
 
-// Event hooks - simplified approach for wagmi v2 compatibility
+export function useSaccoSharesPurchasedEvent(onEvent: (event: any) => void) {
+  useWatchContractEvent({
+    address: SACCO_CONTRACT.address,
+    abi: SACCO_CONTRACT.abi,
+    eventName: 'SharesPurchased',
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent(log.args);
+      });
+    },
+  });
+}
+
 export function useSaccoMemberRegisteredEvent(onEvent: (event: MemberRegisteredEvent) => void) {
   useWatchContractEvent({
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'MemberRegistered',
     onLogs(logs) {
-      logs.forEach(() => {
-        // For now, we'll trigger the event without specific args
-        // In a real implementation, you'd decode the log data
-        console.log('MemberRegistered event detected');
-        // onEvent({ member: '0x...' } as MemberRegisteredEvent);
+      logs.forEach((log: any) => {
+        const event = {
+          member: log.args.member,
+          shares: log.args.shares,
+        } as MemberRegisteredEvent;
+        onEvent(event);
       });
     },
   });
@@ -719,9 +734,8 @@ export function useSaccoSavingsDepositedEvent(onEvent: (event: SavingsDepositedE
     abi: SACCO_CONTRACT.abi,
     eventName: 'SavingsDeposited',
     onLogs(logs) {
-      logs.forEach(() => {
-        console.log('SavingsDeposited event detected');
-        // onEvent({ member: '0x...', amount: 0n } as SavingsDepositedEvent);
+      logs.forEach((log: any) => {
+        onEvent({ member: log.args.member, amount: log.args.amount } as SavingsDepositedEvent);
       });
     },
   });
@@ -733,9 +747,8 @@ export function useSaccoLoanIssuedEvent(onEvent: (event: LoanIssuedEvent) => voi
     abi: SACCO_CONTRACT.abi,
     eventName: 'LoanIssued',
     onLogs(logs) {
-      logs.forEach(() => {
-        console.log('LoanIssued event detected');
-        // onEvent({ loanId: 0n, borrower: '0x...', amount: 0n } as LoanIssuedEvent);
+      logs.forEach((log: any) => {
+        onEvent({ loanId: log.args.loanId, borrower: log.args.borrower, amount: log.args.amount, interest: log.args.interest, duration: log.args.duration } as LoanIssuedEvent);
       });
     },
   });
@@ -747,9 +760,8 @@ export function useSaccoLoanRepaidEvent(onEvent: (event: LoanRepaidEvent) => voi
     abi: SACCO_CONTRACT.abi,
     eventName: 'LoanRepaid',
     onLogs(logs) {
-      logs.forEach(() => {
-        console.log('LoanRepaid event detected');
-        // onEvent({ loanId: 0n, borrower: '0x...', amount: 0n } as LoanRepaidEvent);
+      logs.forEach((log: any) => {
+        onEvent({ loanId: log.args.loanId, borrower: log.args.borrower, amount: log.args.amount } as LoanRepaidEvent);
       });
     },
   });
@@ -760,9 +772,10 @@ export function useSaccoDividendPaidEvent(onEvent: (event: DividendPaidEvent) =>
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'DividendPaid',
-    onLogs: (logs) => {
-      console.log('Dividend paid event:', logs);
-      // onEvent({ member: '0x...', amount: 0n } as DividendPaidEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ member: log.args.member, amount: log.args.amount } as DividendPaidEvent);
+      });
     },
   });
 }
@@ -773,9 +786,10 @@ export function useBoardMemberAddedEvent(onEvent: (event: BoardMemberAddedEvent)
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'BoardMemberAdded',
-    onLogs: (logs) => {
-      console.log('Board member added event:', logs);
-      // onEvent({ member: '0x...', votes: 0n } as BoardMemberAddedEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ member: log.args.member, votes: log.args.votes } as BoardMemberAddedEvent);
+      });
     },
   });
 }
@@ -785,9 +799,10 @@ export function useBoardMemberRemovedEvent(onEvent: (event: BoardMemberRemovedEv
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'BoardMemberRemoved',
-    onLogs: (logs) => {
-      console.log('Board member removed event:', logs);
-      // onEvent({ member: '0x...' } as BoardMemberRemovedEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ member: log.args.member } as BoardMemberRemovedEvent);
+      });
     },
   });
 }
@@ -797,9 +812,10 @@ export function useCommitteeBidSubmittedEvent(onEvent: (event: CommitteeBidSubmi
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'CommitteeBidSubmitted',
-    onLogs: (logs) => {
-      console.log('Committee bid submitted event:', logs);
-      // onEvent({ bidder: '0x...', bidId: 0n, amount: 0n } as CommitteeBidSubmittedEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ bidder: log.args.bidder, bidId: log.args.bidId, amount: log.args.amount } as CommitteeBidSubmittedEvent);
+      });
     },
   });
 }
@@ -809,9 +825,10 @@ export function useCommitteeBidVotedEvent(onEvent: (event: CommitteeBidVotedEven
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'CommitteeBidVoted',
-    onLogs: (logs) => {
-      console.log('Committee bid voted event:', logs);
-      // onEvent({ voter: '0x...', bidId: 0n, votes: 0n } as CommitteeBidVotedEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ voter: log.args.voter, bidId: log.args.bidId, votes: log.args.votes } as CommitteeBidVotedEvent);
+      });
     },
   });
 }
@@ -821,9 +838,10 @@ export function useCommitteeBidAcceptedEvent(onEvent: (event: CommitteeBidAccept
     address: SACCO_CONTRACT.address,
     abi: SACCO_CONTRACT.abi,
     eventName: 'CommitteeBidAccepted',
-    onLogs: (logs) => {
-      console.log('Committee bid accepted event:', logs);
-      // onEvent({ bidder: '0x...', bidId: 0n } as CommitteeBidAcceptedEvent);
+    onLogs(logs) {
+      logs.forEach((log: any) => {
+        onEvent({ bidder: log.args.bidder, bidId: log.args.bidId } as CommitteeBidAcceptedEvent);
+      });
     },
   });
 }

@@ -9,7 +9,7 @@ import { PurchaseSharesModal } from '../components/modals/PurchaseSharesModal';
 import { DepositSavingsModal } from '../components/modals/DepositSavingsModal';
 import { RequestLoanModal } from '../components/modals/RequestLoanModal';
 import { ProvideGuaranteeModal } from '../components/modals/ProvideGuaranteeModal';
-import { useSacco } from '../hooks/useSacco';
+import { useSacco, useSaccoMemberRegisteredEvent, useSaccoSharesPurchasedEvent, useSaccoSavingsDepositedEvent } from '../hooks/useSacco';
 import { citreaTestnet } from '../wagmi';
 
 export default function Dashboard() {
@@ -19,7 +19,8 @@ export default function Dashboard() {
     const { 
         data: balance, 
         isLoading: balanceLoading, 
-        error: balanceError 
+        error: balanceError,
+        refetch: refetchBalance
     } = useBalance({
         address,
         chainId: citreaTestnet.id,
@@ -32,13 +33,23 @@ export default function Dashboard() {
     // Overall loading and error states
 
 
-  const formatBalance = (balance: bigint | undefined) => {
-    if (!balance) return '0.00';
-    return parseFloat(formatEther(balance)).toFixed(4);
-  };
-
     // Get member info
-    const { data: memberInfo } = useGetMemberInfo(address!);
+    const { data: memberInfo, refetch: refetchMemberInfo } = useGetMemberInfo(address!);
+
+    // Listen for member registration events to refetch data
+    useSaccoMemberRegisteredEvent(() => {
+        refetchMemberInfo();
+    });
+
+    useSaccoSharesPurchasedEvent(() => {
+        refetchMemberInfo();
+        refetchBalance();
+    });
+
+    useSaccoSavingsDepositedEvent(() => {
+        refetchMemberInfo();
+        refetchBalance();
+    });
     const isMember = memberInfo && memberInfo[0] > 0; // memberInfo[0] is shares
     const isActive = memberInfo ? memberInfo[3] : false; // memberInfo[3] is isActive
     const joinDate = memberInfo ? new Date(Number(memberInfo[2]) * 1000) : null; // memberInfo[2] is joinDate
