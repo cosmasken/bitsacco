@@ -139,7 +139,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
               className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
               disabled={isLoading}
             />
-            <p className="text-xs text-gray-500">Amount in BTC</p>
+            <p className="text-xs text-gray-500">{t('sacco.requestLoan.amountInBTC')}</p>
           </div>
 
           <div className="space-y-2">
@@ -154,7 +154,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
               className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
               disabled={isLoading}
             />
-            <p className="text-xs text-gray-500">Loan duration in days</p>
+            <p className="text-xs text-gray-500">{t('sacco.requestLoan.loanDurationInDays')}</p>
           </div>
 
           <div className="space-y-2">
@@ -164,11 +164,11 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
               type="text"
               value={purpose}
               onChange={(e) => setPurpose(e.target.value)}
-              placeholder="Business expansion, emergency, etc." 
+              placeholder={t('sacco.requestLoan.purposePlaceholder')} 
               className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
               disabled={isLoading}
             />
-            <p className="text-xs text-gray-500">Explain why you need this loan</p>
+            <p className="text-xs text-gray-500">{t('sacco.requestLoan.explainLoanPurpose')}</p>
           </div>
 
           {error && (

@@ -121,15 +121,12 @@
     "startNewGroup": "Yeni grup başlat",
     "findExistingGroups": "Mevcut grupları bul"
   },
-  "actions": {
-    "redEnvelope": "Kırmızı Zarf",
-    "sendGifts": "Hediye gönder",
-    "stackBTC": "BTC Biriktir",
-    "autoInvest": "Otomatik yatırım"
-  },
   "sacco": {
     "dashboard": {
       "title": "SACCO Kontrol Paneli",
+      "welcomeBack": "Tekrar hoş geldiniz! Üyelik tarihi: {{date}}",
+      "purchaseSharesPrompt": "Sacco üyesi olmak için hisse satın alın",
+      "connectWalletPrompt": "Sacco özelliklerine erişmek için lütfen cüzdanınızı bağlayın.",
       "totalProposals": "Toplam Teklifler",
       "totalProposalsDescription": "Oluşturulan toplam yönetim teklifi sayısı.",
       "nextLoanId": "Sonraki Kredi Kimliği",
@@ -138,10 +135,43 @@
       "loanInterestRateDescription": "Krediler için yıllık faiz oranı.",
       "owner": "SACCO Sahibi",
       "ownerDescription": "SACCO sözleşmesi sahibinin adresi.",
-      "actions": "SACCO İşlemleri"
+      "actions": {
+        "title": "Hızlı İşlemler",
+        "description": "Gerçekleştirebileceğiniz yaygın Sacco işlemleri",
+        "walletAddress": "Cüzdan Adresi",
+        "walletBalance": "Cüzdan Bakiyesi",
+        "purchaseShares": "Hisse Satın Al",
+        "depositSavings": "Tasarruf Yatır",
+        "requestLoan": "Kredi Talep Et",
+        "provideGuarantee": "Garanti Ver"
+      },
+      "boardManagement": {
+        "title": "Sacco Genel Bakış",
+        "description": "Üyelik durumunuz ve yönetim genel bakışınız",
+        "yourShares": "Hisseleriniz",
+        "yourSavings": "Birikimleriniz",
+        "totalProposals": "Toplam Teklifler",
+        "yourMembership": "Üyeliğiniz",
+        "activeMember": "Aktif Üye",
+        "inactiveMember": "Pasif Üye",
+        "memberSince": "Üyelik tarihi:",
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "governanceOverview": "Yönetim Genel Bakışı",
+        "votingPower": "Oy Gücü",
+        "purchaseSharesPrompt": "Üye olmak ve Sacco yönetimine katılmak için hisse satın alın.",
+        "loadingMemberInfo": "Üye bilgileri yükleniyor..."
+      }
     },
     "actions": {
-      "registerMember": "Üye Kaydet"
+      "title": "Hızlı İşlemler",
+      "description": "Gerçekleştirebileceğiniz yaygın Sacco işlemleri",
+      "walletAddress": "Cüzdan Adresi",
+      "walletBalance": "Cüzdan Bakiyesi",
+      "purchaseShares": "Hisse Satın Al",
+      "depositSavings": "Tasarruf Yatır",
+      "requestLoan": "Kredi Talep Et",
+      "provideGuarantee": "Garanti Ver"
     },
     "registerMember": {
       "title": "Yeni Üye Kaydet",
@@ -154,6 +184,7 @@
       "description": "Sacco üyesi olun veya hisselerinizi artırın.",
       "sharesLabel": "Hisse Sayısı",
       "amountToPay": "Ödenecek Tutar",
+      "sharePrice": "Hisse fiyatı: Her biri {{price}} cBTC",
       "purchaseButton": "Hisse Satın Al"
     },
     "depositSavings": {

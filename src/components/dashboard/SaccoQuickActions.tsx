@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useAccount, useBalance } from 'wagmi';
 import { useSacco } from '@/hooks/useSacco';
+import { useTranslation } from 'react-i18next';
 
 export function SaccoQuickActions({
     onPurchaseShares,
@@ -23,6 +24,7 @@ export function SaccoQuickActions({
     onRequestLoan: () => void;
     onProvideGuarantee: () => void;
 }) {
+    const { t } = useTranslation();
     const { address } = useAccount();
     const { data: balance } = useBalance({ address });
     const { useGetMemberInfo } = useSacco();
@@ -33,14 +35,8 @@ export function SaccoQuickActions({
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>
-                    Common Sacco operations you can perform
-                </CardDescription>
-            </CardHeader>
             <CardContent>
-                <div className="space-y-2 mb-6 p-4 border rounded-lg bg-secondary">
+                <div className="space-y-2 mb-6 py-4">
                     <div className="flex justify-between items-center">
                         <span className="text-sm text-muted-foreground">Wallet Address</span>
                         <span className="font-mono text-sm truncate max-w-[200px] md:max-w-full">{address}</span>

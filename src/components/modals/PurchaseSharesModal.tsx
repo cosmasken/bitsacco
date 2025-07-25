@@ -109,7 +109,7 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="shares">Number of Shares</Label>
+            <Label htmlFor="shares">{t('sacco.purchaseShares.sharesLabel')}</Label>
             <Input
               id="shares"
               type="number"
@@ -121,7 +121,7 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
               disabled={isPending || isConfirming}
             />
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Share price: {SHARE_PRICE} cBTC each
+              {t('sacco.purchaseShares.sharePrice', { price: SHARE_PRICE })}
             </p>
           </div>
 
@@ -176,12 +176,12 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
               {isPending || isConfirming ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {isConfirming ? 'Confirming...' : 'Processing...'}
+                  {isConfirming ? t('common.confirming') : t('common.processing')}
                 </>
               ) : (
                 <>
                   <Share className="w-4 h-4 mr-2" />
-                  Purchase Shares
+                  {t('sacco.purchaseShares.purchaseButton')}
                 </>
               )}
             </Button>

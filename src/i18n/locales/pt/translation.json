@@ -130,6 +130,9 @@
   "sacco": {
     "dashboard": {
       "title": "Painel SACCO",
+      "welcomeBack": "Bem-vindo de volta! Membro desde {{date}}",
+      "purchaseSharesPrompt": "Compre ações para se tornar um membro da Sacco",
+      "connectWalletPrompt": "Por favor, conecte sua carteira para acessar os recursos da Sacco.",
       "totalProposals": "Propostas Totais",
       "totalProposalsDescription": "Número total de propostas de governança criadas.",
       "nextLoanId": "ID do Próximo Empréstimo",
@@ -138,10 +141,42 @@
       "loanInterestRateDescription": "A taxa de juros anual para empréstimos.",
       "owner": "Proprietário do SACCO",
       "ownerDescription": "O endereço do proprietário do contrato SACCO.",
-      "actions": "Ações SACCO"
-    },
+      "actions": {
+        "title": "Ações Rápidas",
+        "description": "Operações comuns da Sacco que você pode realizar",
+        "walletAddress": "Endereço da Carteira",
+        "walletBalance": "Saldo da Carteira",
+        "purchaseShares": "Comprar Ações",
+        "depositSavings": "Depositar Economias",
+        "requestLoan": "Solicitar Empréstimo",
+        "provideGuarantee": "Fornecer Garantia"
+      },
+      "boardManagement": {
+        "title": "Visão Geral da Sacco",
+        "description": "Seu status de membro e visão geral da governança",
+        "yourShares": "Suas Ações",
+        "yourSavings": "Suas Economias",
+        "totalProposals": "Propostas Totais",
+        "yourMembership": "Sua Filiação",
+        "activeMember": "Membro Ativo",
+        "inactiveMember": "Membro Inativo",
+        "memberSince": "Membro desde:",
+        "active": "Ativo",
+        "inactive": "Inativo",
+        "governanceOverview": "Visão Geral da Governança",
+        "votingPower": "Poder de Voto",
+        "purchaseSharesPrompt": "Compre ações para se tornar um membro e participar da governança da Sacco.",
+        "loadingMemberInfo": "Carregando informações do membro..."
+      },
     "actions": {
-      "registerMember": "Registrar Membro"
+      "title": "Ações Rápidas",
+      "description": "Operações comuns da Sacco que você pode realizar",
+      "walletAddress": "Endereço da Carteira",
+      "walletBalance": "Saldo da Carteira",
+      "purchaseShares": "Comprar Ações",
+      "depositSavings": "Depositar Economias",
+      "requestLoan": "Solicitar Empréstimo",
+      "provideGuarantee": "Fornecer Garantia"
     },
     "registerMember": {
       "title": "Registrar Novo Membro",
@@ -154,6 +189,7 @@
       "description": "Torne-se um membro da Sacco ou aumente suas ações.",
       "sharesLabel": "Número de Ações",
       "amountToPay": "Valor a Pagar",
+      "sharePrice": "Preço da ação: {{price}} cBTC cada",
       "purchaseButton": "Comprar Ações"
     },
     "depositSavings": {
@@ -230,4 +266,5 @@
     "cbtc": "cBTC",
     "sats": "sats"
   }
+}
 }

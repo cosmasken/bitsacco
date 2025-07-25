@@ -130,6 +130,9 @@
   "sacco": {
     "dashboard": {
       "title": "Tableau de bord SACCO",
+      "welcomeBack": "Bienvenue de retour ! Membre depuis le {{date}}",
+      "purchaseSharesPrompt": "Achetez des parts pour devenir membre du Sacco",
+      "connectWalletPrompt": "Veuillez connecter votre portefeuille pour accéder aux fonctionnalités du Sacco.",
       "totalProposals": "Propositions totales",
       "totalProposalsDescription": "Nombre total de propositions de gouvernance créées.",
       "nextLoanId": "ID du prochain prêt",
@@ -138,10 +141,42 @@
       "loanInterestRateDescription": "Le taux d'intérêt annuel pour les prêts.",
       "owner": "Propriétaire du SACCO",
       "ownerDescription": "L'adresse du propriétaire du contrat SACCO.",
-      "actions": "Actions SACCO"
-    },
+      "actions": {
+        "title": "Actions rapides",
+        "description": "Opérations Sacco courantes que vous pouvez effectuer",
+        "walletAddress": "Adresse du portefeuille",
+        "walletBalance": "Solde du portefeuille",
+        "purchaseShares": "Acheter des parts",
+        "depositSavings": "Déposer des économies",
+        "requestLoan": "Demander un prêt",
+        "provideGuarantee": "Fournir une garantie"
+      },
+      "boardManagement": {
+        "title": "Aperçu du Sacco",
+        "description": "Votre statut de membre et aperçu de la gouvernance",
+        "yourShares": "Vos parts",
+        "yourSavings": "Vos économies",
+        "totalProposals": "Propositions totales",
+        "yourMembership": "Votre adhésion",
+        "activeMember": "Membre actif",
+        "inactiveMember": "Membre inactif",
+        "memberSince": "Membre depuis :",
+        "active": "Actif",
+        "inactive": "Inactif",
+        "governanceOverview": "Aperçu de la gouvernance",
+        "votingPower": "Pouvoir de vote",
+        "purchaseSharesPrompt": "Achetez des parts pour devenir membre et participer à la gouvernance du Sacco.",
+        "loadingMemberInfo": "Chargement des informations du membre..."
+      },
     "actions": {
-      "registerMember": "Enregistrer un membre"
+      "title": "Actions rapides",
+      "description": "Opérations Sacco courantes que vous pouvez effectuer",
+      "walletAddress": "Adresse du portefeuille",
+      "walletBalance": "Solde du portefeuille",
+      "purchaseShares": "Acheter des parts",
+      "depositSavings": "Déposer des économies",
+      "requestLoan": "Demander un prêt",
+      "provideGuarantee": "Fournir une garantie"
     },
     "registerMember": {
       "title": "Enregistrer un nouveau membre",
@@ -154,6 +189,7 @@
       "description": "Devenez membre du Sacco ou augmentez vos parts.",
       "sharesLabel": "Nombre de parts",
       "amountToPay": "Montant à payer",
+      "sharePrice": "Prix de la part : {{price}} cBTC chacune",
       "purchaseButton": "Acheter des parts"
     },
     "depositSavings": {
@@ -230,4 +266,5 @@
     "cbtc": "cBTC",
     "sats": "sats"
   }
+}
 }

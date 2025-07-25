@@ -10,9 +10,11 @@ import { DepositSavingsModal } from '../components/modals/DepositSavingsModal';
 import { RequestLoanModal } from '../components/modals/RequestLoanModal';
 import { ProvideGuaranteeModal } from '../components/modals/ProvideGuaranteeModal';
 import { useSacco, useSaccoMemberRegisteredEvent, useSaccoSharesPurchasedEvent, useSaccoSavingsDepositedEvent } from '../hooks/useSacco';
+import { useTranslation } from 'react-i18next';
 import { citreaTestnet } from '../wagmi';
 
 export default function Dashboard() {
+    const { t } = useTranslation();
     const { address, isConnected } = useAccount();
     const { useGetMemberInfo } = useSacco();
     // Get user balance with loading and error states
@@ -57,11 +59,11 @@ export default function Dashboard() {
     return (
         <div className="container mx-auto p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
             <div className="mb-6">
-                <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Sacco Dashboard</h1>
+                <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">{t('sacco.dashboard.title')}</h1>
                 <p className="text-gray-600 dark:text-gray-400">
                     {isMember 
-                        ? `Welcome back! Member since ${joinDate?.toLocaleDateString()}`
-                        : 'Purchase shares to become a Sacco member'
+                        ? t('sacco.dashboard.welcomeBack', { date: joinDate?.toLocaleDateString() })
+                        : t('sacco.dashboard.purchaseSharesPrompt')
                     }
                 </p>
             </div>
@@ -71,7 +73,7 @@ export default function Dashboard() {
                 <Alert className="mb-6 bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800">
                     <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
                     <AlertDescription className="text-yellow-700 dark:text-yellow-300">
-                        Please connect your wallet to access Sacco features.
+                        {t('sacco.dashboard.connectWalletPrompt')}
                     </AlertDescription>
                 </Alert>
             )}

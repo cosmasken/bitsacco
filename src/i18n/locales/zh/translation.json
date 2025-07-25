@@ -130,6 +130,9 @@
   "sacco": {
     "dashboard": {
       "title": "SACCO 仪表板",
+      "welcomeBack": "欢迎回来！会员自 {{date}}",
+      "purchaseSharesPrompt": "购买股份以成为 Sacco 会员",
+      "connectWalletPrompt": "请连接您的钱包以访问 Sacco 功能。",
       "totalProposals": "提案总数",
       "totalProposalsDescription": "已创建的治理提案总数。",
       "nextLoanId": "下一个贷款 ID",
@@ -138,11 +141,33 @@
       "loanInterestRateDescription": "贷款的年利率。",
       "owner": "SACCO 所有者",
       "ownerDescription": "SACCO 合约所有者的地址。",
-      "actions": "SACCO 操作"
-    },
-    "actions": {
-      "registerMember": "注册会员"
-    },
+      "actions": {
+        "title": "快速操作",
+        "description": "您可以执行的常见 Sacco 操作",
+        "walletAddress": "钱包地址",
+        "walletBalance": "钱包余额",
+        "purchaseShares": "购买股份",
+        "depositSavings": "存入储蓄",
+        "requestLoan": "申请贷款",
+        "provideGuarantee": "提供担保"
+      },
+      "boardManagement": {
+        "title": "Sacco 概览",
+        "description": "您的会员状态和治理概览",
+        "yourShares": "您的股份",
+        "yourSavings": "您的储蓄",
+        "totalProposals": "提案总数",
+        "yourMembership": "您的会员资格",
+        "activeMember": "活跃会员",
+        "inactiveMember": "非活跃会员",
+        "memberSince": "会员自:",
+        "active": "活跃",
+        "inactive": "非活跃",
+        "governanceOverview": "治理概览",
+        "votingPower": "投票权",
+        "purchaseSharesPrompt": "购买股份以成为会员并参与 Sacco 治理。",
+        "loadingMemberInfo": "正在加载会员信息..."
+      },
     "registerMember": {
       "title": "注册新会员",
       "description": "向 SACCO 注册新会员。只有所有者才能执行此操作。",
@@ -154,6 +179,7 @@
       "description": "成为 Sacco 会员或增加您的股份。",
       "sharesLabel": "股份数量",
       "amountToPay": "支付金额",
+      "sharePrice": "股份价格：每股 {{price}} cBTC",
       "purchaseButton": "购买股份"
     },
     "depositSavings": {
@@ -230,4 +256,5 @@
     "cbtc": "cBTC",
     "sats": "聪"
   }
+}
 }

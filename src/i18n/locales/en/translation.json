@@ -131,6 +131,9 @@
   "sacco": {
     "dashboard": {
       "title": "SACCO Dashboard",
+      "welcomeBack": "Welcome back! Member since {{date}}",
+      "purchaseSharesPrompt": "Purchase shares to become a Sacco member",
+      "connectWalletPrompt": "Please connect your wallet to access Sacco features.",
       "totalProposals": "Total Proposals",
       "totalProposalsDescription": "Total number of governance proposals created.",
       "nextLoanId": "Next Loan ID",
@@ -139,7 +142,33 @@
       "loanInterestRateDescription": "The annual interest rate for loans.",
       "owner": "SACCO Owner",
       "ownerDescription": "The address of the SACCO contract owner.",
-      "actions": "SACCO Actions"
+      "actions": {
+        "title": "Quick Actions",
+        "description": "Common Sacco operations you can perform",
+        "walletAddress": "Wallet Address",
+        "walletBalance": "Wallet Balance",
+        "purchaseShares": "Purchase Shares",
+        "depositSavings": "Deposit Savings",
+        "requestLoan": "Request Loan",
+        "provideGuarantee": "Provide Guarantee"
+      },
+      "boardManagement": {
+        "title": "Sacco Overview",
+        "description": "Your membership status and governance overview",
+        "yourShares": "Your Shares",
+        "yourSavings": "Your Savings",
+        "totalProposals": "Total Proposals",
+        "yourMembership": "Your Membership",
+        "activeMember": "Active Member",
+        "inactiveMember": "Inactive Member",
+        "memberSince": "Member since:",
+        "active": "Active",
+        "inactive": "Inactive",
+        "governanceOverview": "Governance Overview",
+        "votingPower": "Voting Power",
+        "purchaseSharesPrompt": "Purchase shares to become a member and participate in Sacco governance.",
+        "loadingMemberInfo": "Loading member information..."
+      }
     },
     "actions": {
       "registerMember": "Register Member"
@@ -155,6 +184,7 @@
       "description": "Become a Sacco member or increase your shares.",
       "sharesLabel": "Number of Shares",
       "amountToPay": "Amount to Pay",
+      "sharePrice": "Share price: {{price}} cBTC each",
       "purchaseButton": "Purchase Shares"
     },
     "depositSavings": {
@@ -169,13 +199,23 @@
       "amountLabel": "Loan Amount",
       "durationLabel": "Loan Duration (days)",
       "purposeLabel": "Purpose (Optional)",
+      "purposePlaceholder": "Business expansion, emergency, etc.",
+      "amountInBTC": "Amount in BTC",
+      "loanDurationInDays": "Loan duration in days",
+      "explainLoanPurpose": "Explain why you need this loan",
       "requestButton": "Request Loan"
     },
     "provideGuarantee": {
       "title": "Provide Guarantee",
       "description": "Provide a guarantee for another member's loan.",
       "loanIdLabel": "Loan ID",
+      "borrowerLabel": "Borrower:",
+      "loanAmountLabel": "Loan Amount:",
       "amountLabel": "Guarantee Amount",
+      "amountInBTCDescription": "Amount in BTC you're willing to guarantee for this loan",
+      "guaranteeResponsibilityTitle": "Guarantee Responsibility",
+      "guaranteeResponsibilityDescription": "Your guarantee amount will be held as collateral. If the borrower defaults, you may lose this amount. Only guarantee for members you trust.",
+      "connectWalletWarning": "Please connect your wallet to provide a guarantee.",
       "guaranteeButton": "Provide Guarantee"
     }
   },

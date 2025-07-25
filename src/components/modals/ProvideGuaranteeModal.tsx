@@ -120,8 +120,8 @@ export const ProvideGuaranteeModal: React.FC<ProvideGuaranteeModalProps> = ({
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-                  Loan ID:
-                </span>
+                    {t('sacco.provideGuarantee.loanIdLabel')}
+                  </span>
                 <span className="text-sm text-blue-900 dark:text-blue-100">
                   #{loanId}
                 </span>

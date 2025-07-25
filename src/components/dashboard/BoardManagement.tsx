@@ -6,8 +6,10 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Users, Vote, Crown } from 'lucide-react';
 import { useSacco, useSaccoSharesPurchasedEvent, useSaccoSavingsDepositedEvent } from '@/hooks/useSacco';
+import { useTranslation } from 'react-i18next';
 
 export function BoardManagement() {
+    const { t } = useTranslation();
     const { address } = useAccount();
     const { data: balance, refetch: refetchBalance } = useBalance({ address });
     const { 
@@ -45,46 +47,25 @@ export function BoardManagement() {
         <div className="space-y-6">
             {/* Board Overview */}
             <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Users className="h-5 w-5" />
-                        Sacco Overview
-                    </CardTitle>
-                    <CardDescription>
-                        Your membership status and governance overview
-                    </CardDescription>
-                </CardHeader>
                 <CardContent>
-                    <div className="space-y-2 mb-6 p-4 border rounded-lg bg-secondary">
-                        <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">Wallet Address</span>
-                            <span className="font-mono text-sm">{address}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">Wallet Balance</span>
-                            <span className="font-semibold">
-                                {balance ? `${balance.formatted} ${balance.symbol}` : 'Loading...'}
-                            </span>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 py-4">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-blue-600">
-                                {formatEther(shares)}
+                                {shares}
                             </div>
-                            <div className="text-sm text-gray-600">Your Shares</div>
+                            <div className="text-sm text-gray-600">Shares</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-green-600">
-                                {formatEther(savings)}
+                                {savings}
                             </div>
-                            <div className="text-sm text-gray-600">Your Savings</div>
+                            <div className="text-sm text-gray-600">Savings</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-orange-600">
                                 {loadingProposals ? '...' : totalProposals?.toString() || '0'}
                             </div>
-                            <div className="text-sm text-gray-600">Total Proposals</div>
+                            <div className="text-sm text-gray-600">Proposals</div>
                         </div>
                     </div>
 
@@ -100,7 +81,7 @@ export function BoardManagement() {
                                             {isActive ? 'Active Member' : 'Inactive Member'}
                                         </div>
                                         <div className="text-xs text-gray-500">
-                                            Member since: {joinDate?.toLocaleDateString()}
+                                            Member Since {joinDate?.toLocaleDateString()}
                                         </div>
                                     </div>
                                 </div>
@@ -119,13 +100,13 @@ export function BoardManagement() {
                                 <div className="text-2xl font-bold text-purple-600">
                                     {loadingProposals ? '...' : totalProposals?.toString() || '0'}
                                 </div>
-                                <div className="text-sm text-gray-600">Total Proposals</div>
+                                <div className="text-sm text-gray-600">Proposals</div>
                             </div>
                             <div className="p-4 border rounded-lg text-center">
                                 <div className="text-2xl font-bold text-indigo-600">
-                                    {formatEther(shares)}
+                                    {shares}
                                 </div>
-                                <div className="text-sm text-gray-600">Voting Power</div>
+                                <div className="text-sm text-gray-600">Shares</div>
                             </div>
                         </div>
                     </div>
