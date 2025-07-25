@@ -10,14 +10,15 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
 
     // Constants
     uint256 public constant MINIMUM_SHARES = 10;
-    uint256 public constant SHARE_PRICE = 0.001 ether; // 0.001 BTC per share
-    uint256 public constant SAVINGS_INTEREST_RATE = 5; // 5% per annum
+    uint256 public constant SHARE_PRICE = 0.001 ether;
+    uint256 public constant SAVINGS_INTEREST_RATE = 5;
     uint256 public constant SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
-    uint256 public constant DIVIDEND_DISTRIBUTION_THRESHOLD = 50; // Minimum shares to distribute dividends
+    uint256 public constant DIVIDEND_DISTRIBUTION_THRESHOLD = 50;
 
     // Events
     event DividendDistributed(address indexed member, uint256 amount);
     event InterestCalculated(address indexed member, uint256 amount);
+    event ProposalCreated(uint256 indexed proposalId, address indexed candidate);
 
     constructor(address storageAddress) {
         _storage = SaccoStorage(storageAddress);
@@ -28,7 +29,6 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
         _;
     }
 
-    // Share and Membership Management
     function purchaseShares(uint256 _shares) external payable nonReentrant {
         require(_shares >= MINIMUM_SHARES, "Must purchase minimum shares");
         require(msg.value == _shares * SHARE_PRICE, "Incorrect payment amount");
@@ -47,65 +47,6 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
         _createMembershipProposal(_candidate);
     }
 
-    // Savings Management
-    function depositSavings() external payable onlyMember nonReentrant {
-        require(msg.value > 0, "Deposit amount must be greater than zero");
-        
-        // Calculate and pay interest before updating savings
-        _calculateAndPayInterest(msg.sender);
-        
-        _storage.updateMemberSavings(msg.sender, msg.value, true);
-        emit SavingsDeposited(msg.sender, msg.value);
-    }
-
-    function withdrawSavings(uint256 _amount) external onlyMember nonReentrant {
-        Member memory member = _storage.getMember(msg.sender);
-        require(_amount > 0 && _amount <= member.savings, "Invalid withdrawal amount");
-        
-        // Calculate interest before withdrawal
-        _calculateAndPayInterest(msg.sender);
-        
-        _storage.updateMemberSavings(msg.sender, _amount, false);
-        payable(msg.sender).transfer(_amount);
-    }
-
-    // Interest and Dividend Management
-    function calculateInterestForAllMembers() external {
-        address[] memory memberAddresses = _storage.getMemberAddresses();
-        for (uint i = 0; i < memberAddresses.length; i++) {
-            if (_storage.isMemberActive(memberAddresses[i])) {
-                _calculateAndPayInterest(memberAddresses[i]);
-            }
-        }
-    }
-
-    function distributeDividends() external onlyMember nonReentrant {
-        Member memory distributor = _storage.getMember(msg.sender);
-        require(distributor.shares >= DIVIDEND_DISTRIBUTION_THRESHOLD, 
-            "Insufficient shares to distribute dividends");
-        
-        uint256 surplus = address(this).balance - _storage.getTotalSavings();
-        require(surplus > 0, "No surplus for dividends");
-        
-        uint256 dividendPool = surplus / 2; // 50% of surplus as dividends
-        uint256 totalWeightedShares = _calculateTotalWeightedShares();
-        
-        address[] memory memberAddresses = _storage.getMemberAddresses();
-        for (uint i = 0; i < memberAddresses.length; i++) {
-            address memberAddr = memberAddresses[i];
-            if (_storage.isMemberActive(memberAddr)) {
-                uint256 memberWeight = _calculateMemberWeight(memberAddr);
-                uint256 dividend = (dividendPool * memberWeight) / totalWeightedShares;
-                
-                if (dividend > 0) {
-                    payable(memberAddr).transfer(dividend);
-                    emit DividendDistributed(memberAddr, dividend);
-                }
-            }
-        }
-    }
-
-    // Internal functions
     function _createMembershipProposal(address _candidate) internal {
         uint256 proposalId = _storage.createProposal(
             string(abi.encodePacked("Membership proposal for ", _addressToString(_candidate))),
@@ -113,6 +54,7 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
             _candidate
         );
         
+        emit ProposalCreated(proposalId, _candidate);
         emit MembershipProposed(msg.sender, _candidate);
     }
     
@@ -136,6 +78,25 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
         emit SharesPurchased(_member, _shares, _payment);
     }
 
+    function depositSavings() external payable onlyMember nonReentrant {
+        require(msg.value > 0, "Deposit amount must be greater than zero");
+        
+        _calculateAndPayInterest(msg.sender);
+        _storage.updateMemberSavings(msg.sender, msg.value, true);
+        
+        emit SavingsDeposited(msg.sender, msg.value);
+    }
+
+    function withdrawSavings(uint256 _amount) external onlyMember nonReentrant {
+        Member memory member = _storage.getMember(msg.sender);
+        require(_amount > 0 && _amount <= member.savings, "Invalid withdrawal amount");
+        
+        _calculateAndPayInterest(msg.sender);
+        _storage.updateMemberSavings(msg.sender, _amount, false);
+        
+        payable(msg.sender).transfer(_amount);
+    }
+
     function _calculateAndPayInterest(address _member) internal {
         Member memory member = _storage.getMember(_member);
         if (member.savings == 0) return;
@@ -147,6 +108,41 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
         if (interest > 0) {
             _storage.updateMemberSavings(_member, interest, true);
             emit InterestCalculated(_member, interest);
+        }
+    }
+
+    function calculateInterestForAllMembers() external {
+        address[] memory memberAddresses = _storage.getMemberAddresses();
+        for (uint i = 0; i < memberAddresses.length; i++) {
+            if (_storage.isMemberActive(memberAddresses[i])) {
+                _calculateAndPayInterest(memberAddresses[i]);
+            }
+        }
+    }
+
+    function distributeDividends() external onlyMember nonReentrant {
+        Member memory distributor = _storage.getMember(msg.sender);
+        require(distributor.shares >= DIVIDEND_DISTRIBUTION_THRESHOLD, 
+            "Insufficient shares to distribute dividends");
+        
+        uint256 surplus = address(this).balance - _storage.getTotalSavings();
+        require(surplus > 0, "No surplus for dividends");
+        
+        uint256 dividendPool = surplus / 2;
+        uint256 totalWeightedShares = _calculateTotalWeightedShares();
+        
+        address[] memory memberAddresses = _storage.getMemberAddresses();
+        for (uint i = 0; i < memberAddresses.length; i++) {
+            address memberAddr = memberAddresses[i];
+            if (_storage.isMemberActive(memberAddr)) {
+                uint256 memberWeight = _calculateMemberWeight(memberAddr);
+                uint256 dividend = (dividendPool * memberWeight) / totalWeightedShares;
+                
+                if (dividend > 0) {
+                    payable(memberAddr).transfer(dividend);
+                    emit DividendDistributed(memberAddr, dividend);
+                }
+            }
         }
     }
 
@@ -166,7 +162,6 @@ contract SaccoMembers is ReentrancyGuard, ISacco {
         return total;
     }
 
-    // View functions
     function getMemberInfo(address _member) external view returns (
         uint256 shares,
         uint256 savings,

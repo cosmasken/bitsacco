@@ -36,6 +36,7 @@ interface ISacco {
     event SharesPurchased(address indexed member, uint256 shares, uint256 amount);
     event MemberRegistered(address indexed member, uint256 shares);
     event MembershipProposed(address indexed proposer, address indexed candidate);
-    event SavingsDeposited(address indexed member, uint256 amount);
+     event SavingsDeposited(address indexed member, uint256 amount);
+    event SavingsWithdrawn(address indexed member, uint256 amount);
     event InterestPaid(address indexed member, uint256 amount);
 }

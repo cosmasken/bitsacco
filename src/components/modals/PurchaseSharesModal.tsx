@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Share } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { useTranslation } from 'react-i18next';
-import { usePurchaseShares } from '../../hooks/useSacco';
+import { useSacco } from '../../hooks/useSacco';
 import { formatEther, parseEther } from 'viem';
 
 interface PurchaseSharesModalProps {
@@ -27,7 +27,7 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
   const { t } = useTranslation();
   const { isConnected } = useAccount();
 
-  const { purchaseShares, hash, error, isPending, isConfirming, isConfirmed } = usePurchaseShares();
+  const { purchaseShares, hash, error, isPending, isConfirming, isConfirmed } = useSacco().usePurchaseShares();
 
   const totalCost = (parseFloat(shares) * parseFloat(SHARE_PRICE)).toFixed(3);
 
@@ -71,7 +71,7 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
     }
 
     try {
-      purchaseShares(shareCount, totalCost);
+      purchaseShares(shareCount);
     } catch (err: unknown) {
       toast({
         title: 'Purchase Failed',

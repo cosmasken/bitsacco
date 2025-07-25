@@ -17,7 +17,9 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
     uint256 public constant MINIMUM_SHARES = 10;
     uint256 public constant SHARE_PRICE = 0.001 ether;
     uint256 public constant SAVINGS_INTEREST_RATE = 5;
-    uint256 public constant LOAN_INTEREST_RATE = 10;
+    uint256 public constant SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+
+    // Events
 
     constructor() Ownable(msg.sender) {
         // Deploy storage and modules
@@ -28,6 +30,7 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         // Authorize modules
         saccoStorage.addAuthorizedContract(address(saccoMembers));
         saccoStorage.addAuthorizedContract(address(saccoLoans));
+        saccoStorage.addAuthorizedContract(address(this));
 
         // Initialize founder as first member
         saccoMembers.purchaseShares{value: MINIMUM_SHARES * SHARE_PRICE}(MINIMUM_SHARES);
@@ -44,16 +47,44 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
 
     // Savings Management Functions
     function depositSavings() external payable {
+        require(msg.value > 0, "Deposit amount must be greater than zero");
+        
+        // Calculate and pay interest before updating savings
+        _calculateAndPayInterest(msg.sender);
+        
+        // Update savings through SaccoMembers
         saccoMembers.depositSavings{value: msg.value}();
+        
+        emit SavingsDeposited(msg.sender, msg.value);
     }
 
     function withdrawSavings(uint256 _amount) external {
+        // Calculate interest before withdrawal
+        _calculateAndPayInterest(msg.sender);
+        
+        // Withdraw through SaccoMembers
         saccoMembers.withdrawSavings(_amount);
+        
+        emit SavingsWithdrawn(msg.sender, _amount);
+    }
+
+    function _calculateAndPayInterest(address _member) internal {
+        ISacco.Member memory member = saccoStorage.getMember(_member);
+        if (member.savings == 0) return;
+        
+        uint256 timeElapsed = block.timestamp - member.lastInterestUpdate;
+        uint256 interest = (member.savings * SAVINGS_INTEREST_RATE * timeElapsed) / 
+            (100 * SECONDS_PER_YEAR);
+        
+        if (interest > 0) {
+            saccoStorage.updateMemberSavings(_member, interest, true);
+            emit InterestPaid(_member, interest);
+        }
     }
 
     // Loan Management Functions
-    function requestLoan(uint256 _amount, uint256 _duration, string calldata _purpose) external {
-        saccoLoans.requestLoan(_amount, _duration, _purpose);
+    function requestLoan(uint256 _amount, uint256 _duration) external {
+        saccoLoans.requestLoan(_amount, _duration);
     }
 
     function provideGuarantee(uint256 _loanId) external payable {
@@ -64,7 +95,7 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         saccoLoans.repayLoan{value: msg.value}(_loanId);
     }
 
-    // Dividend Management Functions
+    // Dividend and Interest Functions
     function distributeDividends() external {
         saccoMembers.distributeDividends();
     }
@@ -85,6 +116,18 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         return saccoMembers.getMemberInfo(_member);
     }
 
+    function getTotalShares() external view returns (uint256) {
+        return saccoStorage.getTotalShares();
+    }
+
+    function getTotalSavings() external view returns (uint256) {
+        return saccoStorage.getTotalSavings();
+    }
+
+    function getTotalProposals() external view returns (uint256) {
+        return saccoStorage.getTotalProposals();
+    }
+
     // View Functions - Loans
     function getLoan(uint256 _loanId) external view returns (SaccoLoans.Loan memory) {
         return saccoLoans.getLoan(_loanId);
@@ -102,23 +145,28 @@ contract SACCO is Ownable, ReentrancyGuard, ISacco {
         return saccoLoans.getLoanGuarantees(_loanId);
     }
 
-    // Additional View Functions needed by frontend
-    function getTotalProposals() external view returns (uint256) {
-        return saccoStorage.getTotalProposals();
-    }
-
     function getNextLoanId() external view returns (uint256) {
         return saccoLoans.nextLoanId();
     }
 
-    function getTotalShares() external view returns (uint256) {
-        return saccoStorage.getTotalShares();
+    // Additional Member Functions
+    function isMemberActive(address _member) external view returns (bool) {
+        return saccoStorage.isMemberActive(_member);
     }
 
-    function getTotalSavings() external view returns (uint256) {
-        return saccoStorage.getTotalSavings();
+    function getMemberSavings(address _member) external view returns (uint256) {
+        ISacco.Member memory member = saccoStorage.getMember(_member);
+        return member.savings;
+    }
+
+    function getMemberShares(address _member) external view returns (uint256) {
+        ISacco.Member memory member = saccoStorage.getMember(_member);
+        return member.shares;
     }
 
     // Receive function to accept ETH
     receive() external payable {}
+
+    // Fallback function
+    fallback() external payable {}
 }

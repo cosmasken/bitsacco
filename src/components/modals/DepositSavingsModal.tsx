@@ -1,169 +1,151 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import React, { useState } from 'react';
+import { parseEther, formatEther } from 'viem';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2, Wallet } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle, PiggyBank } from 'lucide-react';
+import { useSacco } from '@/hooks/useSacco';
 import { useAccount } from 'wagmi';
-import { useTranslation } from 'react-i18next';
-import { useDepositSavings } from '../../hooks/useSacco';
 
 interface DepositSavingsModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-export const DepositSavingsModal: React.FC<DepositSavingsModalProps> = ({
-  open,
-  onOpenChange,
-}) => {
-  const [amount, setAmount] = useState<string>('');
-  const { toast } = useToast();
-  const { t } = useTranslation();
-  const { isConnected } = useAccount();
+export function DepositSavingsModal({ open, onOpenChange }: DepositSavingsModalProps) {
+    const { address } = useAccount();
+    const { useDepositSavings, useGetMemberInfo } = useSacco();
 
-  const { depositSavings, hash, error, isPending, isConfirming, isConfirmed } = useDepositSavings();
+    // Get member info to check eligibility
+    const { data: memberInfo } = useGetMemberInfo(address!);
+    const isMember = memberInfo && memberInfo[0] > 0; // shares
+    const isActive = memberInfo ? memberInfo[3] : false; // isActive
+    const currentSavings = memberInfo ? memberInfo[1] : BigInt(0); // savings
 
-  useEffect(() => {
-    if (!open) {
-      setAmount('');
-    }
-  }, [open]);
+    // Local state
+    const [amount, setAmount] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isConfirmed && hash) {
-      toast({
-        title: 'Deposit Successful!',
-        description: `Deposited ${amount} sats. Transaction hash: ${hash}`,
-      });
-      onOpenChange(false);
-    }
-  }, [isConfirmed, hash, amount, toast, onOpenChange]);
+    // Get deposit savings function
+    const { depositSavings, isPending, isConfirming, isConfirmed } = useDepositSavings();
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: 'Deposit Failed',
-        description: error.message || 'An unknown error occurred.',
-        variant: 'destructive',
-      });
-    }
-  }, [error, toast]);
+    const handleDeposit = async () => {
+        try {
+            setError(null);
+            if (!amount || parseFloat(amount) <= 0) {
+                setError('Please enter a valid amount');
+                return;
+            }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+            const depositAmount = parseEther(amount);
+            await depositSavings(depositAmount);
+            
+            if (isConfirmed) {
+                setAmount('');
+                onOpenChange(false);
+            }
+        } catch (err) {
+            console.error('Error depositing savings:', err);
+            setError(err instanceof Error ? err.message : 'Failed to deposit savings');
+        }
+    };
 
-    if (!amount || parseFloat(amount) <= 0) {
-      toast({
-        title: 'Error',
-        description: 'Please enter a valid amount.',
-        variant: 'destructive',
-      });
-      return;
-    }
+    const isProcessing = isPending || isConfirming;
 
-    try {
-      const amountInSats = BigInt(Math.floor(parseFloat(amount) * 100000000)); // Convert to sats
-      depositSavings(amountInSats);
-    } catch (err: unknown) {
-      toast({
-        title: 'Deposit Failed',
-        description: (err as Error).message || 'An unknown error occurred.',
-        variant: 'destructive',
-      });
-    }
-  };
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                        <PiggyBank className="h-5 w-5" />
+                        Deposit Savings
+                    </DialogTitle>
+                    <DialogDescription>
+                        Add to your savings in the Sacco. Your savings earn interest and increase your loan limit.
+                    </DialogDescription>
+                </DialogHeader>
 
-  const isLoading = isPending || isConfirming;
+                {!isMember || !isActive ? (
+                    <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                            You must be an active member to deposit savings.
+                        </AlertDescription>
+                    </Alert>
+                ) : (
+                    <div className="space-y-4">
+                        {/* Current Savings Display */}
+                        <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                                Current Savings
+                            </div>
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                                {formatEther(currentSavings)} BTC
+                            </div>
+                        </div>
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Wallet className="w-5 h-5 text-orange-500" />
-            {t('sacco.depositSavings.title')}
-          </DialogTitle>
-          <DialogDescription>
-            {t('sacco.depositSavings.description')}
-          </DialogDescription>
-        </DialogHeader>
+                        <div className="space-y-2">
+                            <Label htmlFor="amount">Deposit Amount (BTC)</Label>
+                            <Input
+                                id="amount"
+                                type="number"
+                                step="0.000001"
+                                min="0.000001"
+                                placeholder="0.0"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                disabled={isProcessing}
+                            />
+                            <p className="text-sm text-gray-500">
+                                Minimum deposit: 0.000001 BTC
+                            </p>
+                        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="amount">{t('sacco.depositSavings.amountLabel')}</Label>
-            <Input
-              id="amount"
-              type="number"
-              step="0.00000001"
-              min="0"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="0.00000001" 
-              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-              disabled={isLoading}
-            />
-            <p className="text-xs text-gray-500">Amount in BTC</p>
-          </div>
+                        {/* Interest Rate Info */}
+                        <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+                            <AlertCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            <AlertDescription className="text-blue-700 dark:text-blue-300">
+                                Your savings earn 5% APY interest, calculated and compounded daily.
+                            </AlertDescription>
+                        </Alert>
 
-          {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
-              <p className="text-sm text-red-700 dark:text-red-300">
-                {error.message.includes('execution reverted') 
-                  ? 'Transaction failed. Check if you have sufficient balance.'
-                  : error.message.split('\n')[0]
-                }
-              </p>
-            </div>
-          )}
+                        {error && (
+                            <Alert variant="destructive">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
 
-          {!isConnected && (
-            <div className="p-3 bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-200 dark:border-yellow-800">
-              <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                {t('common.connectWalletWarning')}
-              </p>
-            </div>
-          )}
-
-          {hash && (
-            <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
-              <p className="text-sm text-blue-700 dark:text-blue-300">
-                Transaction submitted: {hash}
-              </p>
-            </div>
-          )}
-
-          <div className="flex gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1"
-              disabled={isLoading}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 btn-primary"
-              disabled={isLoading || !isConnected || !amount}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {isConfirming ? t('common.confirming') : t('common.processing')}
-                </>
-              ) : (
-                <>
-                  <Wallet className="w-4 h-4 mr-2" />
-                  {t('sacco.depositSavings.depositButton')}
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-};
+                        <div className="flex justify-end space-x-2">
+                            <Button
+                                variant="outline"
+                                onClick={() => onOpenChange(false)}
+                                disabled={isProcessing}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={handleDeposit}
+                                disabled={!amount || parseFloat(amount) <= 0 || isProcessing}
+                            >
+                                {isProcessing ? (
+                                    isConfirming ? 'Confirming...' : 'Depositing...'
+                                ) : (
+                                    'Deposit Savings'
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </DialogContent>
+        </Dialog>
+    );
+}

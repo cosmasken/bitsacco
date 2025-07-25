@@ -53,7 +53,8 @@ contract SaccoLoans is ReentrancyGuard {
         _;
     }
 
-    function requestLoan(uint256 _amount, uint256 _duration, string calldata _purpose) external onlyMember nonReentrant {
+    // Removed unused _purpose parameter
+    function requestLoan(uint256 _amount, uint256 _duration) external onlyMember nonReentrant {
         require(_amount > 0, "Loan amount must be greater than zero");
         require(_duration >= 30 days && _duration <= 365 days, "Invalid loan duration");
         

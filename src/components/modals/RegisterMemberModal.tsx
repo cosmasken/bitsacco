@@ -1,156 +1,159 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import React, { useState } from 'react';
+import { isAddress, formatEther } from 'viem';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2, UserPlus } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle, UserPlus } from 'lucide-react';
+import { useSacco } from '@/hooks/useSacco';
 import { useAccount } from 'wagmi';
-import { useTranslation } from 'react-i18next';
-import { useSacco, useRegisterMember } from '../../hooks/useSacco';
-import { Address } from 'viem';
+import { SACCO_CONSTANTS } from '@/contracts/sacco-contract';
 
 interface RegisterMemberModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-export const RegisterMemberModal: React.FC<RegisterMemberModalProps> = ({
-  open,
-  onOpenChange,
-}) => {
-  const [memberAddress, setMemberAddress] = useState<string>('');
-  const { toast } = useToast();
-  const { t } = useTranslation();
-  const { isConnected } = useAccount();
+export function RegisterMemberModal({ open, onOpenChange }: RegisterMemberModalProps) {
+    const { address } = useAccount();
+    const { useRegisterMember, useGetMemberInfo } = useSacco();
 
-  const { registerMember, hash, error, isPending, isConfirming, isConfirmed } = useRegisterMember();
+    // Get member info to check eligibility
+    const { data: memberInfo } = useGetMemberInfo(address!);
+    const isMember = memberInfo && memberInfo[0] > 0; // shares
+    const isActive = memberInfo ? memberInfo[3] : false; // isActive
 
-  useEffect(() => {
-    if (!open) {
-      setMemberAddress('');
-    }
-  }, [open]);
+    // Local state
+    const [memberAddress, setMemberAddress] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isConfirmed && hash) {
-      toast({
-        title: 'Registration Successful!',
-        description: `Member ${memberAddress} registered. Transaction hash: ${hash}`,
-      });
-      onOpenChange(false);
-    }
-  }, [isConfirmed, hash, memberAddress, toast, onOpenChange]);
+    // Get register member function
+    const { registerMember, isPending, isConfirming, isConfirmed } = useRegisterMember();
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: 'Registration Failed',
-        description: error.message || 'An unknown error occurred.',
-        variant: 'destructive',
-      });
-    }
-  }, [error, toast]);
+    const handleRegisterMember = async () => {
+        try {
+            setError(null);
+            
+            // Validate address
+            if (!memberAddress || !isAddress(memberAddress)) {
+                setError('Please enter a valid Ethereum address');
+                return;
+            }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+            // Check if registering self
+            if (memberAddress.toLowerCase() === address?.toLowerCase()) {
+                setError('Cannot register yourself');
+                return;
+            }
 
-    if (!memberAddress) {
-      toast({
-        title: 'Error',
-        description: 'Please enter a member address.',
-        variant: 'destructive',
-      });
-      return;
-    }
+            await registerMember(memberAddress as `0x${string}`);
+            
+            if (isConfirmed) {
+                setMemberAddress('');
+                onOpenChange(false);
+            }
+        } catch (err) {
+            console.error('Error registering member:', err);
+            setError(err instanceof Error ? err.message : 'Failed to register member');
+        }
+    };
 
-    try {
-      registerMember(memberAddress as Address);
-    } catch (err: unknown) {
-      toast({
-        title: 'Registration Failed',
-        description: (err as Error).message || 'An unknown error occurred.',
-        variant: 'destructive',
-      });
-    }
-  };
+    const isProcessing = isPending || isConfirming;
+    const registrationCost = SACCO_CONSTANTS.MINIMUM_SHARES * SACCO_CONSTANTS.SHARE_PRICE;
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <UserPlus className="w-5 h-5 text-orange-500" />
-            {t('sacco.registerMember.title')}
-          </DialogTitle>
-          <DialogDescription>
-            {t('sacco.registerMember.description')}
-          </DialogDescription>
-        </DialogHeader>
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                        <UserPlus className="h-5 w-5" />
+                        Register New Member
+                    </DialogTitle>
+                    <DialogDescription>
+                        Register a new member to the Sacco. This will purchase the minimum required shares for them.
+                    </DialogDescription>
+                </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="memberAddress">{t('sacco.registerMember.memberAddressLabel')}</Label>
-            <Input
-              id="memberAddress"
-              type="text"
-              value={memberAddress}
-              onChange={(e) => setMemberAddress(e.target.value)}
-              placeholder="0x..." 
-              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-              disabled={isPending || isConfirming}
-            />
-          </div>
+                {!isMember || !isActive ? (
+                    <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                            You must be an active member to register new members.
+                        </AlertDescription>
+                    </Alert>
+                ) : (
+                    <div className="space-y-4">
+                        {/* Registration Cost Info */}
+                        <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                                Registration Cost
+                            </div>
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                                {formatEther(registrationCost)} BTC
+                            </div>
+                            <div className="text-sm text-gray-500 mt-1">
+                                {String(SACCO_CONSTANTS.MINIMUM_SHARES)} shares at {formatEther(SACCO_CONSTANTS.SHARE_PRICE)} BTC each
+                            </div>
+                        </div>
 
-          {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
-              <p className="text-sm text-red-700 dark:text-red-300">
-                {error.message.includes('execution reverted') 
-                  ? 'Transaction failed. Check if the address is already registered or if you are the owner.'
-                  : error.message.split('\n')[0]
-                }
-              </p>
-            </div>
-          )}
+                        <div className="space-y-2">
+                            <Label htmlFor="memberAddress">Member Address</Label>
+                            <Input
+                                id="memberAddress"
+                                placeholder="0x..."
+                                value={memberAddress}
+                                onChange={(e) => setMemberAddress(e.target.value)}
+                                disabled={isProcessing}
+                            />
+                            <p className="text-sm text-gray-500">
+                                Enter the Ethereum address of the new member
+                            </p>
+                        </div>
 
-          {!isConnected && (
-            <div className="p-3 bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-200 dark:border-yellow-800">
-              <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                {t('common.connectWalletWarning')}
-              </p>
-            </div>
-          )}
+                        {/* Registration Info */}
+                        <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+                            <AlertCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            <AlertDescription className="text-blue-700 dark:text-blue-300">
+                                This will purchase the minimum required shares for the new member. Make sure you have their permission.
+                            </AlertDescription>
+                        </Alert>
 
-          <div className="flex gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1"
-              disabled={isPending || isConfirming}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 btn-primary"
-              disabled={isPending || isConfirming || !isConnected || !memberAddress}
-            >
-              {isPending || isConfirming ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {isConfirming ? t('common.confirming') : t('common.processing')}
-                </>
-              ) : (
-                <>
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  {t('sacco.registerMember.registerButton')}
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-};
+                        {error && (
+                            <Alert variant="destructive">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
+
+                        <div className="flex justify-end space-x-2">
+                            <Button
+                                variant="outline"
+                                onClick={() => onOpenChange(false)}
+                                disabled={isProcessing}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={handleRegisterMember}
+                                disabled={!memberAddress || isProcessing}
+                            >
+                                {isProcessing ? (
+                                    isConfirming ? 'Confirming...' : 'Registering...'
+                                ) : (
+                                    'Register Member'
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </DialogContent>
+        </Dialog>
+    );
+}
