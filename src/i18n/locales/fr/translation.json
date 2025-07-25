@@ -148,6 +148,34 @@
       "description": "Enregistrer un nouveau membre au SACCO. Seul le propriétaire peut effectuer cette action.",
       "memberAddressLabel": "Adresse du membre",
       "registerButton": "Enregistrer"
+    },
+    "purchaseShares": {
+      "title": "Acheter des parts",
+      "description": "Devenez membre du Sacco ou augmentez vos parts.",
+      "sharesLabel": "Nombre de parts",
+      "amountToPay": "Montant à payer",
+      "purchaseButton": "Acheter des parts"
+    },
+    "depositSavings": {
+      "title": "Déposer des économies",
+      "description": "Déposez des fonds sur votre compte d'épargne Sacco.",
+      "amountLabel": "Montant à déposer",
+      "depositButton": "Déposer"
+    },
+    "requestLoan": {
+      "title": "Demander un prêt",
+      "description": "Demandez un prêt au Sacco.",
+      "amountLabel": "Montant du prêt",
+      "durationLabel": "Durée du prêt (jours)",
+      "purposeLabel": "Objectif (Facultatif)",
+      "requestButton": "Demander un prêt"
+    },
+    "provideGuarantee": {
+      "title": "Fournir une garantie",
+      "description": "Fournir une garantie pour le prêt d'un autre membre.",
+      "loanIdLabel": "ID du prêt",
+      "amountLabel": "Montant de la garantie",
+      "guaranteeButton": "Fournir une garantie"
     }
   },
   "forms": {

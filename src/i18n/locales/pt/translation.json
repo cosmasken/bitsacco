@@ -148,6 +148,34 @@
       "description": "Registre um novo membro no SACCO. Somente o proprietário pode realizar esta ação.",
       "memberAddressLabel": "Endereço do Membro",
       "registerButton": "Registrar"
+    },
+    "purchaseShares": {
+      "title": "Comprar Ações",
+      "description": "Torne-se um membro da Sacco ou aumente suas ações.",
+      "sharesLabel": "Número de Ações",
+      "amountToPay": "Valor a Pagar",
+      "purchaseButton": "Comprar Ações"
+    },
+    "depositSavings": {
+      "title": "Depositar Economias",
+      "description": "Deposite fundos em sua conta poupança da Sacco.",
+      "amountLabel": "Valor a Depositar",
+      "depositButton": "Depositar"
+    },
+    "requestLoan": {
+      "title": "Solicitar Empréstimo",
+      "description": "Solicite um empréstimo da Sacco.",
+      "amountLabel": "Valor do Empréstimo",
+      "durationLabel": "Duração do Empréstimo (dias)",
+      "purposeLabel": "Finalidade (Opcional)",
+      "requestButton": "Solicitar Empréstimo"
+    },
+    "provideGuarantee": {
+      "title": "Fornecer Garantia",
+      "description": "Forneça uma garantia para o empréstimo de outro membro.",
+      "loanIdLabel": "ID do Empréstimo",
+      "amountLabel": "Valor da Garantia",
+      "guaranteeButton": "Fornecer Garantia"
     }
   },
   "forms": {

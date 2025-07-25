@@ -100,11 +100,10 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Share className="w-5 h-5 text-orange-500" />
-            Purchase SACCO Shares
+            {t('sacco.purchaseShares.title')}
           </DialogTitle>
           <DialogDescription>
-            Purchase shares to become a SACCO member. Each share costs {SHARE_PRICE} cBTC.
-            Minimum purchase is {MINIMUM_SHARES} shares.
+            {t('sacco.purchaseShares.description')}
           </DialogDescription>
         </DialogHeader>
 

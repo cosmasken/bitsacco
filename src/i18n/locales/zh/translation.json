@@ -148,6 +148,34 @@
       "description": "向 SACCO 注册新会员。只有所有者才能执行此操作。",
       "memberAddressLabel": "会员地址",
       "registerButton": "注册"
+    },
+    "purchaseShares": {
+      "title": "购买股份",
+      "description": "成为 Sacco 会员或增加您的股份。",
+      "sharesLabel": "股份数量",
+      "amountToPay": "支付金额",
+      "purchaseButton": "购买股份"
+    },
+    "depositSavings": {
+      "title": "存入储蓄",
+      "description": "将资金存入您的 Sacco 储蓄账户。",
+      "amountLabel": "存款金额",
+      "depositButton": "存款"
+    },
+    "requestLoan": {
+      "title": "申请贷款",
+      "description": "向 Sacco 申请贷款。",
+      "amountLabel": "贷款金额",
+      "durationLabel": "贷款期限（天）",
+      "purposeLabel": "目的（可选）",
+      "requestButton": "申请贷款"
+    },
+    "provideGuarantee": {
+      "title": "提供担保",
+      "description": "为其他会员的贷款提供担保。",
+      "loanIdLabel": "贷款 ID",
+      "amountLabel": "担保金额",
+      "guaranteeButton": "提供担保"
     }
   },
   "forms": {

@@ -107,10 +107,10 @@ export const ProvideGuaranteeModal: React.FC<ProvideGuaranteeModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-green-500" />
-            Provide Loan Guarantee
+            {t('sacco.provideGuarantee.title')}
           </DialogTitle>
           <DialogDescription>
-            Help a fellow member by providing a guarantee for their loan. Your guarantee will be held as collateral.
+            {t('sacco.provideGuarantee.description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -150,7 +150,7 @@ export const ProvideGuaranteeModal: React.FC<ProvideGuaranteeModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="guaranteeAmount">Guarantee Amount</Label>
+            <Label htmlFor="guaranteeAmount">{t('sacco.provideGuarantee.amountLabel')}</Label>
             <Input
               id="guaranteeAmount"
               type="number"

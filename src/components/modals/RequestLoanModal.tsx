@@ -127,7 +127,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="amount">Loan Amount</Label>
+            <Label htmlFor="amount">{t('sacco.requestLoan.amountLabel')}</Label>
             <Input
               id="amount"
               type="number"
@@ -143,7 +143,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="duration">Duration (Days)</Label>
+            <Label htmlFor="duration">{t('sacco.requestLoan.durationLabel')}</Label>
             <Input
               id="duration"
               type="number"
@@ -158,7 +158,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="purpose">Purpose</Label>
+            <Label htmlFor="purpose">{t('sacco.requestLoan.purposeLabel')}</Label>
             <Input
               id="purpose"
               type="text"

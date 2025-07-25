@@ -148,6 +148,34 @@
       "description": "SACCO'ya yeni bir üye kaydedin. Bu işlemi yalnızca sahip gerçekleştirebilir.",
       "memberAddressLabel": "Üye Adresi",
       "registerButton": "Kaydet"
+    },
+    "purchaseShares": {
+      "title": "Hisse Satın Al",
+      "description": "Sacco üyesi olun veya hisselerinizi artırın.",
+      "sharesLabel": "Hisse Sayısı",
+      "amountToPay": "Ödenecek Tutar",
+      "purchaseButton": "Hisse Satın Al"
+    },
+    "depositSavings": {
+      "title": "Tasarruf Yatır",
+      "description": "Sacco tasarruf hesabınıza para yatırın.",
+      "amountLabel": "Yatırılacak Tutar",
+      "depositButton": "Yatır"
+    },
+    "requestLoan": {
+      "title": "Kredi Talep Et",
+      "description": "Sacco'dan kredi talep edin.",
+      "amountLabel": "Kredi Tutarı",
+      "durationLabel": "Kredi Süresi (gün)",
+      "purposeLabel": "Amaç (İsteğe Bağlı)",
+      "requestButton": "Kredi Talep Et"
+    },
+    "provideGuarantee": {
+      "title": "Garanti Ver",
+      "description": "Başka bir üyenin kredisi için garanti verin.",
+      "loanIdLabel": "Kredi Kimliği",
+      "amountLabel": "Garanti Tutarı",
+      "guaranteeButton": "Garanti Ver"
     }
   },
   "forms": {

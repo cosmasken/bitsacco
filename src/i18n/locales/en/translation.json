@@ -149,6 +149,34 @@
       "description": "Register a new member to the SACCO. Only the owner can perform this action.",
       "memberAddressLabel": "Member Address",
       "registerButton": "Register"
+    },
+    "purchaseShares": {
+      "title": "Purchase Shares",
+      "description": "Become a Sacco member or increase your shares.",
+      "sharesLabel": "Number of Shares",
+      "amountToPay": "Amount to Pay",
+      "purchaseButton": "Purchase Shares"
+    },
+    "depositSavings": {
+      "title": "Deposit Savings",
+      "description": "Deposit funds into your Sacco savings account.",
+      "amountLabel": "Amount to Deposit",
+      "depositButton": "Deposit"
+    },
+    "requestLoan": {
+      "title": "Request Loan",
+      "description": "Request a loan from the Sacco.",
+      "amountLabel": "Loan Amount",
+      "durationLabel": "Loan Duration (days)",
+      "purposeLabel": "Purpose (Optional)",
+      "requestButton": "Request Loan"
+    },
+    "provideGuarantee": {
+      "title": "Provide Guarantee",
+      "description": "Provide a guarantee for another member's loan.",
+      "loanIdLabel": "Loan ID",
+      "amountLabel": "Guarantee Amount",
+      "guaranteeButton": "Provide Guarantee"
     }
   },
   "forms": {

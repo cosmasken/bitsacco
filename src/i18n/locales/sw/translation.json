@@ -148,6 +148,34 @@
       "description": "Sajili mwanachama mpya kwenye SACCO. Mmiliki pekee ndiye anayeweza kufanya kitendo hiki.",
       "memberAddressLabel": "Anwani ya Mwanachama",
       "registerButton": "Sajili"
+    },
+    "purchaseShares": {
+      "title": "Nunua Hisa",
+      "description": "Kuwa mwanachama wa Sacco au ongeza hisa zako.",
+      "sharesLabel": "Idadi ya Hisa",
+      "amountToPay": "Kiasi cha Kulipa",
+      "purchaseButton": "Nunua Hisa"
+    },
+    "depositSavings": {
+      "title": "Weka Akiba",
+      "description": "Weka fedha kwenye akaunti yako ya akiba ya Sacco.",
+      "amountLabel": "Kiasi cha Kuweka",
+      "depositButton": "Weka"
+    },
+    "requestLoan": {
+      "title": "Omba Mkopo",
+      "description": "Omba mkopo kutoka Sacco.",
+      "amountLabel": "Kiasi cha Mkopo",
+      "durationLabel": "Muda wa Mkopo (siku)",
+      "purposeLabel": "Kusudi (Si lazima)",
+      "requestButton": "Omba Mkopo"
+    },
+    "provideGuarantee": {
+      "title": "Toa Dhamana",
+      "description": "Toa dhamana kwa mkopo wa mwanachama mwingine.",
+      "loanIdLabel": "Kitambulisho cha Mkopo",
+      "amountLabel": "Kiasi cha Dhamana",
+      "guaranteeButton": "Toa Dhamana"
     }
   },
   "forms": {
