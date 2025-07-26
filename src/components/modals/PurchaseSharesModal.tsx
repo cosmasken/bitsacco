@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Share } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { useTranslation } from 'react-i18next';
-import { usePurchaseShares } from '../../hooks/useSacco';
+import { usePurchaseShares, useSacco } from '../../hooks/useSacco';
 import { formatEther, parseEther } from 'viem';
 
 interface PurchaseSharesModalProps {
@@ -25,9 +25,14 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
   const [shares, setShares] = useState<string>(MINIMUM_SHARES.toString());
   const { toast } = useToast();
   const { t } = useTranslation();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const { purchaseShares, hash, error, isPending, isConfirming, isConfirmed } = usePurchaseShares();
+  const { useGetMemberInfo } = useSacco();
+  const { data: memberInfo } = useGetMemberInfo(address!);
+
+  const isMember = memberInfo && memberInfo[0] > 0; // memberInfo[0] is shares
+  const currentShares = memberInfo ? Number(memberInfo[0]) : 0;
 
   const totalCost = (parseFloat(shares) * parseFloat(SHARE_PRICE)).toFixed(5);
 
@@ -39,26 +44,30 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
 
   useEffect(() => {
     if (isConfirmed && hash) {
-     
+      const successTitle = isMember ? 'Shares Purchased!' : 'Welcome to the Sacco!';
+      const successDescription = isMember 
+        ? `You now own ${currentShares + parseInt(shares)} shares total.`
+        : 'You are now a member! You can deposit savings and request loans.';
+      
       toast({
-        title: 'Purchase Successful!',
+        title: successTitle,
         description: (
-          <span>
-            <span>Transaction:&nbsp;</span>
+          <div className="space-y-2">
+            <p>{successDescription}</p>
             <a
               href={`https://explorer.testnet.citrea.xyz/tx/${hash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 underline"
+              className="text-blue-500 underline text-sm"
             >
-              View on Citrea Scan
+              View transaction on Citrea Scan
             </a>
-          </span>
+          </div>
         ),
       });
       onOpenChange(false);
     }
-  }, [isConfirmed, hash, shares, totalCost, toast, onOpenChange]);
+  }, [isConfirmed, hash, shares, totalCost, toast, onOpenChange, isMember, currentShares]);
 
   useEffect(() => {
     if (error) {
@@ -100,10 +109,13 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Share className="w-5 h-5 text-blue-500" />
-            {t('sacco.purchaseShares.title')}
+            {isMember ? 'Purchase Additional Shares' : 'Become a Sacco Member'}
           </DialogTitle>
           <DialogDescription>
-            {t('sacco.purchaseShares.description')}
+            {isMember 
+              ? 'Purchase more shares to increase your voting power and guarantee capacity.'
+              : 'Purchase shares to become a member of the Sacco. Members can deposit savings, request loans, and participate in governance.'
+            }
           </DialogDescription>
         </DialogHeader>
 
@@ -131,13 +143,33 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
                 Total Cost:
               </span>
               <span className="text-lg font-bold text-blue-900 dark:text-blue-100">
-                {totalCost}  cBTC
+                {totalCost} cBTC
               </span>
             </div>
             <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
               {shares} shares × {SHARE_PRICE} cBTC
             </p>
+            {isMember && (
+              <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                You currently own {currentShares} shares
+              </p>
+            )}
           </div>
+
+          {/* Member Benefits for New Users */}
+          {!isMember && (
+            <div className="p-3 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+              <h4 className="text-sm font-medium text-green-700 dark:text-green-300 mb-2">
+                Member Benefits:
+              </h4>
+              <ul className="text-xs text-green-600 dark:text-green-400 space-y-1">
+                <li>• Deposit savings and earn interest</li>
+                <li>• Request loans backed by your savings</li>
+                <li>• Vote on Sacco proposals and governance</li>
+                <li>• Provide guarantees for other members</li>
+              </ul>
+            </div>
+          )}
 
           {error && (
             <div className="p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">

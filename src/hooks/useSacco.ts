@@ -309,11 +309,16 @@ export const useRegisterMember = () => {
 
   const registerMember = (memberAddress: string) => {
     // For new system, this will use purchaseShares with minimum shares
+    // Using consistent pricing with PurchaseSharesModal
+    const MINIMUM_SHARES = 10;
+    const SHARE_PRICE = "0.00001"; // Match PurchaseSharesModal pricing
+    const totalCost = (MINIMUM_SHARES * parseFloat(SHARE_PRICE)).toFixed(5);
+    
     writeContract({
       ...SACCO_CONTRACT,
       functionName: 'purchaseShares',
-      args: [10], // MINIMUM_SHARES
-      value: parseEther('0.01'), // 10 * 0.001 BTC
+      args: [MINIMUM_SHARES],
+      value: parseEther(totalCost),
       chain: citreaTestnet,
       account: address,
     });
