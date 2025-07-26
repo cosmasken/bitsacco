@@ -135,7 +135,7 @@ export const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-orange-500" />
+            <FileText className="w-5 h-5 text-blue-500" />
             {t('sacco.createProposal.title')}
           </DialogTitle>
           <DialogDescription>

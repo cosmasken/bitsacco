@@ -117,7 +117,7 @@ export const RequestLoanModal: React.FC<RequestLoanModalProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-orange-500" />
+            <CreditCard className="w-5 h-5 text-blue-500" />
             {t('sacco.requestLoan.title')}
           </DialogTitle>
           <DialogDescription>

@@ -4,78 +4,87 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cyberpunk Freedom Theme  */
+/* Trust Blue Theme - Modern Sacco Design */
 
 @layer base {
   :root {
-    --background: 12 12% 4%;
-    --foreground: 39 100% 85%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 12 12% 6%;
-    --card-foreground: 39 100% 85%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 12 12% 6%;
-    --popover-foreground: 39 100% 85%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 25 95% 53%;
-    --primary-foreground: 12 12% 4%;
+    --primary: 214 84% 56%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 12 12% 12%;
-    --secondary-foreground: 39 100% 85%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
 
-    --muted: 12 12% 12%;
-    --muted-foreground: 39 50% 65%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 39 100% 55%;
-    --accent-foreground: 12 12% 4%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 12 12% 15%;
-    --input: 12 12% 15%;
-    --ring: 25 95% 53%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 214 84% 56%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 12 12% 4%;
-    --sidebar-foreground: 39 100% 85%;
-    --sidebar-primary: 25 95% 53%;
-    --sidebar-primary-foreground: 12 12% 4%;
-    --sidebar-accent: 12 12% 12%;
-    --sidebar-accent-foreground: 39 100% 85%;
-    --sidebar-border: 12 12% 15%;
-    --sidebar-ring: 25 95% 53%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 214 84% 56%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222.2 84% 4.9%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 214 84% 56%;
   }
 
   .dark {
-    --background: 12 12% 4%;
-    --foreground: 39 100% 85%;
-    --card: 12 12% 6%;
-    --card-foreground: 39 100% 85%;
-    --popover: 12 12% 6%;
-    --popover-foreground: 39 100% 85%;
-    --primary: 25 95% 53%;
-    --primary-foreground: 12 12% 4%;
-    --secondary: 12 12% 12%;
-    --secondary-foreground: 39 100% 85%;
-    --muted: 12 12% 12%;
-    --muted-foreground: 39 50% 65%;
-    --accent: 39 100% 55%;
-    --accent-foreground: 12 12% 4%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 214 84% 56%;
+    --primary-foreground: 222.2 84% 4.9%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 12 12% 15%;
-    --input: 12 12% 15%;
-    --ring: 25 95% 53%;
-    --sidebar-background: 12 12% 4%;
-    --sidebar-foreground: 39 100% 85%;
-    --sidebar-primary: 25 95% 53%;
-    --sidebar-primary-foreground: 12 12% 4%;
-    --sidebar-accent: 12 12% 12%;
-    --sidebar-accent-foreground: 39 100% 85%;
-    --sidebar-border: 12 12% 15%;
-    --sidebar-ring: 25 95% 53%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 214 84% 56%;
+
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 214 84% 56%;
+    --sidebar-primary-foreground: 222.2 84% 4.9%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 214 84% 56%;
   }
 }
 
@@ -86,107 +95,98 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     background-image: 
-      radial-gradient(circle at 25% 25%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255, 165, 0, 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
-    text-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
   }
 }
 
 @layer components {
-  .cyber-border {
+  .trust-border {
     border: 1px solid;
-    border-image: linear-gradient(45deg, #ff8c00, #ffa500, #ff8c00) 1;
+    border-image: linear-gradient(45deg, #3b82f6, #22c55e, #3b82f6) 1;
     position: relative;
   }
   
-  .cyber-border::before {
+  .trust-border::before {
     content: '';
     position: absolute;
     top: -1px;
     left: -1px;
     right: -1px;
     bottom: -1px;
-    background: linear-gradient(45deg, #ff8c00, #ffa500, #ff8c00);
+    background: linear-gradient(45deg, #3b82f6, #22c55e, #3b82f6);
     border-radius: inherit;
     z-index: -1;
     opacity: 0.2;
   }
 
-  .neon-glow {
+  .trust-glow {
     box-shadow: 
-      0 0 5px rgba(255, 140, 0, 0.5),
-      0 0 10px rgba(255, 140, 0, 0.3),
-      0 0 15px rgba(255, 140, 0, 0.2);
+      0 0 5px rgba(59, 130, 246, 0.5),
+      0 0 10px rgba(59, 130, 246, 0.3),
+      0 0 15px rgba(59, 130, 246, 0.2);
   }
 
-  .cyber-grid {
+  .trust-grid {
     background-image: 
-      linear-gradient(rgba(255, 140, 0, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 140, 0, 0.1) 1px, transparent 1px);
+      linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
-  .glitch-text {
-    position: relative;
-    animation: glitch 2s infinite;
+  .pulse-blue {
+    animation: pulse-blue 2s infinite;
   }
 
-  @keyframes glitch {
-    0%, 100% { transform: translate(0); }
-    10% { transform: translate(-1px, -1px); }
-    20% { transform: translate(1px, 1px); }
-    30% { transform: translate(-1px, 1px); }
-    40% { transform: translate(1px, -1px); }
-    50% { transform: translate(-1px, -1px); }
-    60% { transform: translate(1px, 1px); }
-    70% { transform: translate(-1px, 1px); }
-    80% { transform: translate(1px, -1px); }
-    90% { transform: translate(-1px, -1px); }
+  @keyframes pulse-blue {
+    0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
   }
 
-  .pulse-orange {
-    animation: pulse-orange 2s infinite;
-  }
-
-  @keyframes pulse-orange {
-    0%, 100% { box-shadow: 0 0 5px rgba(255, 140, 0, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.8), 0 0 30px rgba(255, 140, 0, 0.6); }
-  }
-
-  .cyber-button {
-    background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-    border: 1px solid #ff8c00;
-    color: #ff8c00;
+  .trust-button {
+    background: linear-gradient(45deg, #f8fafc, #e2e8f0);
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
   }
 
-  .cyber-button::before {
+  .trust-button::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
     transition: left 0.5s;
   }
 
-  .cyber-button:hover::before {
+  .trust-button:hover::before {
     left: 100%;
   }
 
-  .cyber-button:hover {
-    background: linear-gradient(45deg, #2d2d2d, #3d3d3d);
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.5);
+  .trust-button:hover {
+    background: linear-gradient(45deg, #e2e8f0, #cbd5e1);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
     transform: translateY(-1px);
+  }
+
+  .dark .trust-button {
+    background: linear-gradient(45deg, #1e293b, #334155);
+    color: #60a5fa;
+  }
+
+  .dark .trust-button:hover {
+    background: linear-gradient(45deg, #334155, #475569);
   }
 }
 /* Quick Action Button Styles */
@@ -198,40 +198,40 @@
   @apply transform -translate-y-0.5 shadow-lg;
 }
 
-.quick-action-orange:hover {
-  @apply border-orange-300 dark:border-orange-600;
-}
-
 .quick-action-blue:hover {
   @apply border-blue-300 dark:border-blue-600;
-}
-
-.quick-action-red:hover {
-  @apply border-red-300 dark:border-red-600;
 }
 
 .quick-action-green:hover {
   @apply border-green-300 dark:border-green-600;
 }
 
-.quick-action-icon {
-  @apply w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0;
+.quick-action-red:hover {
+  @apply border-red-300 dark:border-red-600;
 }
 
-.quick-action-icon-orange {
-  @apply bg-gradient-to-br from-orange-500 to-orange-600;
+.quick-action-purple:hover {
+  @apply border-purple-300 dark:border-purple-600;
+}
+
+.quick-action-icon {
+  @apply w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0;
 }
 
 .quick-action-icon-blue {
   @apply bg-gradient-to-br from-blue-500 to-blue-600;
 }
 
+.quick-action-icon-green {
+  @apply bg-gradient-to-br from-green-500 to-green-600;
+}
+
 .quick-action-icon-red {
   @apply bg-gradient-to-br from-red-500 to-red-600;
 }
 
-.quick-action-icon-green {
-  @apply bg-gradient-to-br from-green-500 to-green-600;
+.quick-action-icon-purple {
+  @apply bg-gradient-to-br from-purple-500 to-purple-600;
 }
 
 /* Stats Card Styles */
@@ -246,7 +246,7 @@
 
 /* Welcome Logo Animation */
 .welcome-logo {
-  @apply w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg;
+  @apply w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg;
   animation: pulse 2s infinite;
 }
 
@@ -276,7 +276,7 @@
 }
 /* Button Styles */
 .btn-primary {
-  @apply bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md;
+  @apply bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md;
 }
 
 .btn-secondary {

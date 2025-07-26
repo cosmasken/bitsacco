@@ -99,7 +99,7 @@ export const PurchaseSharesModal: React.FC<PurchaseSharesModalProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Share className="w-5 h-5 text-orange-500" />
+            <Share className="w-5 h-5 text-blue-500" />
             {t('sacco.purchaseShares.title')}
           </DialogTitle>
           <DialogDescription>

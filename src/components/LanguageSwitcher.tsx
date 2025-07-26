@@ -33,9 +33,9 @@ export function LanguageSwitcher() {
         <Button 
           variant="outline" 
           size="sm"
-          className="w-9 h-9 p-0 hover:bg-orange-50 hover:border-orange-200 dark:hover:bg-orange-950 dark:hover:border-orange-800"
+          className="w-9 h-9 p-0 hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-950 dark:hover:border-blue-800"
         >
-          <Globe className="h-4 w-4 text-orange-500" />
+          <Globe className="h-4 w-4 text-blue-500" />
           <span className="sr-only">{t('language.changeLanguage')}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -45,7 +45,7 @@ export function LanguageSwitcher() {
             key={language.code}
             onClick={() => changeLanguage(language.code)}
             className={`cursor-pointer flex items-center justify-between ${
-              i18n.language === language.code ? 'bg-orange-50 dark:bg-orange-950' : ''
+              i18n.language === language.code ? 'bg-blue-50 dark:bg-blue-950' : ''
             }`}
           >
             <div className="flex flex-col">
@@ -53,7 +53,7 @@ export function LanguageSwitcher() {
               <span className="text-xs text-muted-foreground">{t(`language.${language.name.toLowerCase()}`)}</span>
             </div>
             {i18n.language === language.code && (
-              <div className="w-2 h-2 bg-orange-500 rounded-full" />
+              <div className="w-2 h-2 bg-blue-500 rounded-full" />
             )}
           </DropdownMenuItem>
         ))}
