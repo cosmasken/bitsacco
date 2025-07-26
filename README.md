@@ -1,12 +1,12 @@
-# Jenga - Bitcoin Chama dApp
+# Jenga - Bitcoin Sacco dApp
 
-A modern React-based decentralized application for creating and managing Bitcoin savings circles (Chamas) on the Citrea testnet, built with wagmi, viem, and Web3Auth.
+A modern React-based decentralized application for creating and managing Bitcoin savings cooperatives (Saccos) on the Citrea testnet, built with wagmi, viem, and Web3Auth.
 
 ## 🚀 Features
 
 - **Modern Web3 Stack**: Built with wagmi v2 and viem for type-safe Ethereum interactions
 - **Social Login**: Web3Auth integration for seamless user onboarding with Google, Facebook, etc.
-- **Smart Contract Integration**: Direct interaction with Jenga smart contracts
+- **Smart Contract Integration**: Direct interaction with Sacco smart contracts
 - **Real-time Data**: Live balance and contract state updates
 - **Type Safety**: Full TypeScript support with contract ABI types
 - **Responsive Design**: Mobile-first UI with Tailwind CSS
@@ -29,8 +29,8 @@ A modern React-based decentralized application for creating and managing Bitcoin
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd jenga-base
+   git clone https://github.com/cosmasken/bitsacco
+   cd bitsacco
    ```
 
 2. **Install dependencies**
@@ -89,16 +89,21 @@ The app will be available at `http://localhost:5173`
 2. **Injected Wallet**: Connect with MetaMask or other browser wallets
 3. **WalletConnect**: Connect with mobile wallets
 
-### Creating a Chama
+### Joining a Sacco
 
 1. Connect your wallet
-2. Click "Create Chama" on the dashboard
-3. Fill in the chama details:
-   - Name
-   - Monthly contribution amount (in cBTC)
-   - Cycle duration (3-12 months)
-   - Maximum members (3-10)
-4. Confirm the transaction in your wallet
+2. Register as a member in an existing Sacco
+3. Purchase shares to participate in the cooperative
+4. Start making savings deposits and participating in governance
+
+### Sacco Operations
+
+- **Member Registration**: Register as a new member in the Sacco
+- **Share Purchase**: Buy shares to increase voting power and participation
+- **Savings Deposits**: Make regular savings contributions
+- **Loan Requests**: Request loans backed by your savings and guarantees
+- **Board Management**: Participate in board elections and governance
+- **Proposal Voting**: Vote on Sacco proposals and decisions
 
 ### Contract Interactions
 
@@ -106,11 +111,14 @@ The app uses wagmi hooks for all contract interactions:
 
 ```typescript
 // Reading contract data
-const { data: userChamas } = useGetUserChamas(address);
-const { data: userScore } = useGetUserScore(address);
+const { useGetMemberInfo } = useSacco();
+const { data: memberInfo } = useGetMemberInfo(address);
+const { data: savings } = useSavings(address);
 
 // Writing to contract
-const { createChama, isPending, isConfirmed } = useCreateChama();
+const { registerMember, isPending, isConfirmed } = useRegisterMember();
+const { depositSavings } = useDepositSavings();
+const { requestLoan } = useRequestLoan();
 ```
 
 ## 🏗 Architecture
@@ -136,21 +144,24 @@ export const wagmiConfig = createConfig({
 
 Located in `src/lib/web3auth-connector.ts`, this provides seamless integration between Web3Auth and wagmi.
 
-### Contract Hooks (`src/hooks/useJengaContract.ts`)
+### Contract Hooks (`src/hooks/useSacco.ts`)
 
 Type-safe hooks for contract interactions:
-- `useGetChamaInfo(chamaId)` - Get chama details
-- `useGetUserChamas(address)` - Get user's chamas
-- `useCreateChama()` - Create new chama
-- `useJoinChama()` - Join existing chama
-- `useContribute()` - Make contributions
+- `useGetMemberInfo(address)` - Get member details and registration status
+- `useSavings(address)` - Get member's savings balance
+- `useRegisterMember()` - Register as a new member in the Sacco
+- `useDepositSavings()` - Make savings deposits
+- `useRequestLoan()` - Request loans from the Sacco
+- `useVotingPower(address)` - Get member's voting power
+- `useProposal(proposalId)` - Get proposal details
+- `useBoardMembers()` - Get current board members
 
 ### Smart Contract Configuration
 
 ```typescript
-export const JENGA_CONTRACT = {
-  address: '0xbCd9c60030c34dF782eec0249b931851BD941235',
-  abi: JengaABI,
+export const SACCO_CONTRACT = {
+  address: '0xEBb3724F27f7a69fE123386c52323aCE2B397259',
+  abi: SaccoABI,
 } as const;
 ```
 
