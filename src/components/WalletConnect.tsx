@@ -43,7 +43,7 @@ export const WalletConnect: React.FC = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-2 hover:bg-orange-50 hover:border-orange-200 dark:hover:bg-orange-950">
+          <Button variant="outline" className="flex items-center gap-2 hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-950">
             <Wallet className="w-4 h-4" />
             {formatAddress(address)}
           </Button>

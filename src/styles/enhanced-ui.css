@@ -1,20 +1,20 @@
-/* Enhanced UI Styles for Jenga */
+/* Enhanced UI Styles for Jenga - Trust Blue Theme */
 
 /* Tutorial Highlighting */
 .tutorial-highlight {
   position: relative;
   z-index: 30;
-  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.5), 0 0 20px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
   border-radius: 8px;
   animation: pulse-highlight 2s infinite;
 }
 
 @keyframes pulse-highlight {
   0%, 100% { 
-    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.5), 0 0 20px rgba(249, 115, 22, 0.3); 
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3); 
   }
   50% { 
-    box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.3), 0 0 30px rgba(249, 115, 22, 0.5); 
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.5); 
   }
 }
 
@@ -156,17 +156,17 @@
   transform: translateX(-50%);
 }
 
-/* Bitcoin/Sats formatting */
+/* Bitcoin/Sats formatting - Updated for Trust Theme */
 .sats-display {
-  font-family: 'Courier New', monospace;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 600;
-  color: #f97316;
+  color: #3b82f6;
 }
 
 .btc-display {
-  font-family: 'Courier New', monospace;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 600;
-  color: #f59e0b;
+  color: #22c55e;
 }
 
 /* Responsive grid improvements */
@@ -184,7 +184,7 @@
 
 /* Enhanced focus states for accessibility */
 .focus-ring:focus {
-  outline: 2px solid #f97316;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
@@ -204,12 +204,12 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #f97316;
+  background: #3b82f6;
   border-radius: 3px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #ea580c;
+  background: #2563eb;
 }
 
 /* Dark mode scrollbar */

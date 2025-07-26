@@ -62,7 +62,7 @@ export function BoardManagement() {
                             <div className="text-sm text-gray-600">Savings</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-orange-600">
+                            <div className="text-2xl font-bold text-blue-600">
                                 {loadingProposals ? '...' : totalProposals?.toString() || '0'}
                             </div>
                             <div className="text-sm text-gray-600">Proposals</div>
